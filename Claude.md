@@ -2,7 +2,7 @@
 
 - In all interactions and commit messages, be extremely concise. Sacrifice grammar for the sake of concision.
 
-- We are building a budgeting app. The main goal of this app is to have the user input daily transactions for 3 category types: needs, wants, and investing. The user sets a monthly budget amount and decides how the percentages should be divided between the 3 categories. Example: 50% needs, 30% wants, and 20% investing.
+- We are building a budgeting app called betterbudget. The main goal of this app is to have the user input daily transactions for 3 category types: needs, wants, and investing. The user sets a monthly budget amount and decides how the percentages should be divided between the 3 categories. Example: 50% needs, 30% wants, and 20% investing.
 
 - Ask questions during development whenever you're not 100% sure about something or need clarification.
 
@@ -26,25 +26,40 @@
 ## Directory Structure
 
 ```
-my-app/
-├── node_modules/ 
-├── public/             ← public static assets (images, fonts, icons, etc...)
+betterbudget/
+├── public/                 ← static assets
 ├── src/
-│   ├── app/                ← routes, layouts, and pages
+│   ├── app/                ← routes, layouts, pages
+│   │   ├── actions/        ← server actions
+│   │   │   ├── auth.ts
+│   │   │   ├── budget.ts
+│   │   │   └── transactions.ts
+│   │   ├── auth/
+│   │   │   └── callback/
+│   │   │       └── route.ts  ← Supabase auth callback
+│   │   ├── signin/
+│   │   │   └── page.tsx
+│   │   ├── signup/
+│   │   │   └── page.tsx
+│   │   ├── favicon.ico
 │   │   ├── globals.css     ← global styles
-│   │   ├── layout.tsx      ← root layout shared UI for all pages
-│   │   ├── page.tsx        ← homepage /
-│   │   ├── signin/         ← signin route /signin
-│   │   │    └── page.tsx
-│   │   └── signup/         ← signup route /signup
-│   │       └── page.tsx
-│   │ 
+│   │   ├── layout.tsx      ← root layout
+│   │   └── page.tsx        ← homepage /
+│   │
 │   ├── components/         ← reusable UI components
-│   │   
-│   ├── hooks/              ← custom react hooks
-│   │  
-│   └── lib/                ← utility functions, helper libraries, configs, and database access
-├── .env 
+│   │   ├── BudgetForm.tsx
+│   │   └── TransactionForm.tsx
+│   │
+│   ├── hooks/              ← custom React hooks
+│   │
+│   └── lib/                ← utilities, configs, DB access
+│       ├── supabase/
+│       │   ├── client.ts   ← browser Supabase client
+│       │   └── server.ts   ← server Supabase client
+│       └── utils.ts
+│
+├── supabase/               ← DB migrations
+├── .env
 ├── .gitignore
 ├── middleware.ts
 ├── next.config.ts
