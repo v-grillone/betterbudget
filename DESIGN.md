@@ -8,7 +8,7 @@ A minimalist budgeting app with a file-folder navigation model. Users drill down
 
 ## Color Palette
 
-All colors map to Tailwind utility classes. Use these exclusively — do not introduce colors outside this palette.
+All colors map to Tailwind utility classes. Try to stay as close to this palette as possible. If a different color is needed, ask before implementing it.
 
 | Role            | Tailwind Class          | Hex       | Usage                                      |
 |-----------------|-------------------------|-----------|--------------------------------------------|
