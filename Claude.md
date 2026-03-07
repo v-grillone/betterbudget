@@ -21,7 +21,7 @@
 - Transactions : id | transaction_id | user_id | category | desccription | amount
 
 ## Design Principles
-- Minimalist / clean
+- This project follows the design system in `DESIGN.md`. Always reference it before creating or editing any UI components. Do not introduce colors, fonts, or spacing values not defined there.
 
 ## Directory Structure
 
