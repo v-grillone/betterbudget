@@ -3,17 +3,31 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 
-export async function getTransactions() {
+export async function getTransactions(month?: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return []
 
-  const { data } = await supabase
+  let query = supabase
     .from('transactions')
     .select('*')
     .eq('user_id', user.id)
     .order('date', { ascending: false })
 
+  if (month) {
+    if (!/^\d{4}-\d{2}$/.test(month)) throw new Error(`Invalid month format: ${month}`)
+    const [yearStr, monStr] = month.split('-')
+    const monNum = Number(monStr)
+    if (monNum < 1 || monNum > 12) throw new Error(`Invalid month value: ${monStr}`)
+    const yearNum = Number(yearStr)
+    const start = `${yearStr}-${monStr}-01`
+    const lastDay = new Date(yearNum, monNum, 0).getDate()
+    const end = `${yearStr}-${monStr}-${String(lastDay).padStart(2, '0')}`
+    query = query.gte('date', start).lte('date', end)
+  }
+
+  const { data, error } = await query
+  if (error) { console.error('getTransactions:', error.message); return [] }
   return data ?? []
 }
 
