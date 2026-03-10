@@ -78,7 +78,7 @@ export default function BudgetChart({ transactions, budget }: Props) {
           </ResponsiveContainer>
           {/* Center label */}
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-            <span className="text-xs text-stone-500">left</span>
+            <span className="text-xs text-stone-500">{netRemaining < 0 ? 'over' : 'left'}</span>
             <span className={`text-sm font-medium ${netRemaining < 0 ? 'text-red-400' : 'text-stone-400'}`}>
               ${Math.abs(netRemaining).toFixed(2)}
             </span>

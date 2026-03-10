@@ -18,7 +18,9 @@ export default async function Home({
   searchParams: Promise<{ month?: string }>
 }) {
   const { month: monthParam } = await searchParams
-  const month = monthParam ?? currentMonth()
+  const month = monthParam && /^\d{4}-(0[1-9]|1[0-2])$/.test(monthParam)
+    ? monthParam
+    : currentMonth()
   const year = Number(month.split('-')[0])
 
   const [budget, transactions] = await Promise.all([getBudget(), getTransactions(month)])
@@ -50,7 +52,7 @@ export default async function Home({
           {/* Ledger */}
           <div className="bg-white border border-t-0 border-stone-200 rounded-b-lg px-4 pb-6">
             <LedgerTable transactions={transactions} />
-            <TransactionForm />
+            <TransactionForm month={month} />
             <BudgetChart transactions={transactions} budget={budget} />
           </div>
         </div>

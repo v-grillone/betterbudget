@@ -21,6 +21,7 @@ export default function MonthTabs({ year, activeMonth }: MonthTabsProps) {
           <button
             key={month}
             onClick={() => router.push(`/?month=${month}`)}
+            aria-current={isActive ? 'true' : undefined}
             className={
               isActive
                 ? 'px-4 py-2 text-sm font-medium text-stone-800 bg-white border border-b-0 border-stone-200 rounded-t -mb-px whitespace-nowrap'

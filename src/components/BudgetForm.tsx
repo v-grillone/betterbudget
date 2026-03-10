@@ -23,8 +23,9 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
   return (
     <form action={action} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-stone-500 uppercase tracking-wide">Monthly amount</label>
+        <label htmlFor="monthly_amount" className="text-xs font-medium text-stone-500 uppercase tracking-wide">Monthly amount</label>
         <input
+          id="monthly_amount"
           name="monthly_amount"
           type="number"
           step="0.01"
@@ -35,8 +36,9 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
         />
       </div>
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-stone-500 uppercase tracking-wide">Needs %</label>
+        <label htmlFor="needs_pct" className="text-xs font-medium text-stone-500 uppercase tracking-wide">Needs %</label>
         <input
+          id="needs_pct"
           name="needs_pct"
           type="number"
           min="0"
@@ -47,8 +49,9 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
         />
       </div>
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-stone-500 uppercase tracking-wide">Wants %</label>
+        <label htmlFor="wants_pct" className="text-xs font-medium text-stone-500 uppercase tracking-wide">Wants %</label>
         <input
+          id="wants_pct"
           name="wants_pct"
           type="number"
           min="0"
@@ -59,8 +62,9 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
         />
       </div>
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-stone-500 uppercase tracking-wide">Investing %</label>
+        <label htmlFor="investing_pct" className="text-xs font-medium text-stone-500 uppercase tracking-wide">Investing %</label>
         <input
+          id="investing_pct"
           name="investing_pct"
           type="number"
           min="0"

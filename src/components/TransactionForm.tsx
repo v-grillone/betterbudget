@@ -4,22 +4,27 @@ import { addTransaction } from '@/app/actions/transactions'
 import { Plus } from 'lucide-react'
 import { useActionState } from 'react'
 
-function todayStr() {
-  const d = new Date()
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+function defaultDate(month: string) {
+  const now = new Date()
+  const todayMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+  if (month === todayMonth) {
+    return `${todayMonth}-${String(now.getDate()).padStart(2, '0')}`
+  }
+  return `${month}-01`
 }
 
-export default function TransactionForm() {
+export default function TransactionForm({ month }: { month: string }) {
   const [error, action, pending] = useActionState(addTransaction, undefined)
 
   return (
-    <form action={action}>
-      <div className={`border-t border-stone-200 bg-white flex items-center gap-0 ${pending ? 'opacity-50 pointer-events-none' : ''}`}>
+    <form action={action} aria-busy={pending}>
+      <fieldset disabled={pending} className={`border-0 border-t border-stone-200 p-0 m-0 min-w-0 bg-white flex items-center gap-0 ${pending ? 'opacity-50' : ''}`}>
         <input
           name="date"
           type="date"
-          defaultValue={todayStr()}
+          defaultValue={defaultDate(month)}
           required
+          aria-label="Date"
           className="w-36 px-3 py-2 text-sm bg-transparent border-none outline-none text-stone-800 focus:ring-0"
         />
         <input
@@ -27,11 +32,13 @@ export default function TransactionForm() {
           type="text"
           placeholder="Description"
           required
+          aria-label="Description"
           className="flex-1 px-3 py-2 text-sm bg-transparent border-none outline-none placeholder:text-stone-400 text-stone-800 focus:ring-0"
         />
         <select
           name="category"
           required
+          aria-label="Category"
           className="w-28 px-3 py-2 text-sm bg-transparent border-none outline-none text-stone-500 focus:ring-0"
         >
           <option value="needs">Needs</option>
@@ -45,6 +52,7 @@ export default function TransactionForm() {
           min="0.01"
           placeholder="0.00"
           required
+          aria-label="Amount"
           className="w-24 px-3 py-2 text-sm bg-transparent border-none outline-none placeholder:text-stone-400 text-stone-800 text-right focus:ring-0"
         />
         <button
@@ -54,7 +62,7 @@ export default function TransactionForm() {
         >
           <Plus size={16} />
         </button>
-      </div>
+      </fieldset>
       {error && (
         <p className="px-3 py-1.5 text-xs text-red-600 border-t border-stone-200 bg-white">
           {error}

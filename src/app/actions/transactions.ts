@@ -15,14 +15,19 @@ export async function getTransactions(month?: string) {
     .order('date', { ascending: false })
 
   if (month) {
-    const [year, mon] = month.split('-')
-    const start = `${year}-${mon}-01`
-    const lastDay = new Date(Number(year), Number(mon), 0).getDate()
-    const end = `${year}-${mon}-${String(lastDay).padStart(2, '0')}`
+    if (!/^\d{4}-\d{2}$/.test(month)) throw new Error(`Invalid month format: ${month}`)
+    const [yearStr, monStr] = month.split('-')
+    const monNum = Number(monStr)
+    if (monNum < 1 || monNum > 12) throw new Error(`Invalid month value: ${monStr}`)
+    const yearNum = Number(yearStr)
+    const start = `${yearStr}-${monStr}-01`
+    const lastDay = new Date(yearNum, monNum, 0).getDate()
+    const end = `${yearStr}-${monStr}-${String(lastDay).padStart(2, '0')}`
     query = query.gte('date', start).lte('date', end)
   }
 
-  const { data } = await query
+  const { data, error } = await query
+  if (error) { console.error('getTransactions:', error.message); return [] }
   return data ?? []
 }
 
