@@ -40,7 +40,7 @@ export default function LedgerTable({ transactions }: { transactions: Transactio
             </tr>
           ) : (
             transactions.map((t) => (
-              <tr key={t.id} className="border-t border-stone-200 hover:bg-amber-50 transition-colors duration-150">
+              <tr key={t.id} className="border-t border-stone-200 hover:bg-stone-300 transition-colors duration-150">
                 <td className="px-3 py-3 text-sm text-stone-500">{formatDate(t.date)}</td>
                 <td className="px-3 py-3 text-sm text-stone-800">{t.description}</td>
                 <td className="px-3 py-3 text-sm text-stone-500 capitalize">{t.category}</td>

@@ -25,7 +25,7 @@ export default function MonthTabs({ year, activeMonth }: MonthTabsProps) {
             className={
               isActive
                 ? 'px-4 py-2 text-sm font-medium text-stone-800 bg-white border border-b-0 border-stone-200 rounded-t -mb-px whitespace-nowrap'
-                : 'px-4 py-2 text-sm text-stone-500 bg-stone-100 border border-b-0 border-stone-200 rounded-t cursor-pointer hover:bg-amber-50 hover:text-amber-700 transition-colors duration-150 whitespace-nowrap'
+                : 'px-4 py-2 text-sm text-stone-500 bg-stone-100 border border-b-0 border-stone-200 rounded-t cursor-pointer hover:bg-stone-300 hover:text-stone-700 transition-colors duration-150 whitespace-nowrap'
             }
           >
             {label}

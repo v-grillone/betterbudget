@@ -19,14 +19,14 @@ All colors map to Tailwind utility classes. Try to stay as close to this palette
 | Text Primary    | `text-stone-800`        | `#292524` | Headings, labels, primary content          |
 | Text Secondary  | `text-stone-500`        | `#78716C` | Subtext, placeholders, metadata            |
 | Text Disabled   | `text-stone-400`        | `#A8A29E` | Disabled inputs, empty states              |
-| Accent          | `text-amber-700`        | `#B45309` | Active states, links, focus rings, CTAs    |
-| Accent Subtle   | `bg-amber-50`           | `#FFFBEB` | Hover states on accent elements            |
+| Accent          | `text-stone-700`        | `#44403C` | Active states, links, focus rings, CTAs    |
+| Accent Subtle   | `bg-stone-300`          | `#D6D3D1` | Hover states on accent elements            |
 | Success         | `text-emerald-600`      | `#059669` | Positive amounts, income transactions      |
 | Danger          | `text-red-600`          | `#EF4444` | Negative amounts, expenses, delete actions |
 | Danger Subtle   | `bg-red-50`             | `#FEF2F2` | Destructive action hover states            |
-| Needs           | `bg-indigo-400`         | `#818cf8` | Needs transaction values, and charts       |
-| Wants           | `bg-red-400`            | `#f87171` | Wants transaction values, and charts       |
-| Investing       | `bg-emerald-400`        | `#34d399` | Investing transaction values, and charts   |
+| Needs           | `text-indigo-400` / `bg-indigo-400` | `#818cf8` | Needs text amounts; bg for chart swatches |
+| Wants           | `text-red-400` / `bg-red-400`       | `#f87171` | Wants text amounts; bg for chart swatches |
+| Investing       | `text-emerald-400` / `bg-emerald-400` | `#34d399` | Investing text amounts; bg for chart swatches |
 
 > **Rule:** Never use arbitrary Tailwind color values (e.g. `text-[#aabbcc]`). Stick to the table above.
 
@@ -47,7 +47,8 @@ font-family: font-sans (Tailwind default — system-ui, sans-serif)
 | Body / Input      | `text-sm text-stone-800`                  | Transaction rows, form inputs  |
 | Subtext / Meta    | `text-xs text-stone-500`                  | Dates, IDs, helper text        |
 | Amount — Investing| `text-sm font-medium text-emerald-400`    | Investing, Positive values     |
-| Amount — Negative / Wants | `text-sm font-medium text-red-400` | Negative total values, wants values |
+| Amount — Wants    | `text-sm font-medium text-red-400`  | Wants category values              |
+| Amount — Negative | `text-sm font-medium text-red-600`  | Negative totals, overspent categories |
 | Amount — Needs | `text-sm font-medium text-indigo-400`        | Needs values                   |
 | Amount — Neutral  | `text-sm font-medium text-stone-400`      | Running totals, net balance,   |
 
@@ -77,7 +78,7 @@ Uses Tailwind's default 4px base grid. Be consistent — prefer named scale step
 The top nav mimics a physical file folder. Tabs sit above the content surface and feel like they're lifting the page up.
 
 - **Container:** `flex border-b border-stone-200 bg-stone-50 px-4`
-- **Inactive tab:** `px-4 py-2 text-sm text-stone-500 bg-stone-100 border border-b-0 border-stone-200 rounded-t cursor-pointer hover:bg-amber-50 hover:text-amber-700`
+- **Inactive tab:** `px-4 py-2 text-sm text-stone-500 bg-stone-100 border border-b-0 border-stone-200 rounded-t cursor-pointer hover:bg-stone-300 hover:text-stone-700`
 - **Active tab:** `px-4 py-2 text-sm font-medium text-stone-800 bg-white border border-b-0 border-stone-200 rounded-t -mb-px`
 - Tabs should be spaced with `gap-1` and never wrap — use horizontal scroll on overflow
 - The active tab visually "connects" to the content surface below (no bottom border)
@@ -89,7 +90,7 @@ The core UI — a simple, scannable table of daily transactions.
 - **Table wrapper:** `w-full border border-stone-200 rounded-lg overflow-hidden`
 - **Header row:** `bg-stone-100 text-xs font-medium text-stone-500 uppercase tracking-wide`
 - **Header cell:** `px-3 py-2 text-left`
-- **Data row:** `border-t border-stone-200 hover:bg-amber-50 transition-colors`
+- **Data row:** `border-t border-stone-200 hover:bg-stone-300 transition-colors`
 - **Data cell:** `px-3 py-3 text-sm`
 - **Alternate rows:** Do not use zebra striping — use hover state only
 - Columns (suggested order): Date · Description · Category · Amount 
@@ -118,7 +119,7 @@ A lightweight inline form at the bottom of the ledger (not a modal).
 - **Input field:** `w-full px-3 py-2 text-sm bg-transparent border-none outline-none placeholder:text-stone-400 focus:ring-0`
 - Inputs are borderless inside the row — the row container provides the visual boundary
 - Submit with Enter key; show a small `+` icon button as a visual affordance
-- **Add button:** `text-amber-700 hover:text-amber-800 p-1 rounded hover:bg-amber-50`
+- **Add button:** `text-stone-700 hover:text-stone-800 p-1 rounded hover:bg-stone-300`
 
 ### Empty State
 
@@ -132,7 +133,7 @@ Shown when a month has no transactions yet.
 
 | Type        | Classes                                                                 |
 |-------------|-------------------------------------------------------------------------|
-| Primary     | `px-4 py-2 text-sm font-medium text-white bg-amber-700 rounded hover:bg-amber-800` |
+| Primary     | `px-4 py-2 text-sm font-medium text-white bg-stone-700 rounded hover:bg-stone-800` |
 | Secondary   | `px-4 py-2 text-sm font-medium text-stone-700 bg-white border border-stone-200 rounded hover:bg-stone-50` |
 | Ghost       | `px-3 py-1.5 text-sm text-stone-500 rounded hover:bg-stone-100`        |
 | Destructive | `px-4 py-2 text-sm font-medium text-red-500 bg-white border border-red-200 rounded hover:bg-red-50` |
@@ -141,7 +142,7 @@ Shown when a month has no transactions yet.
 
 - **Field wrapper:** `flex flex-col gap-1`
 - **Label:** `text-xs font-medium text-stone-500 uppercase tracking-wide`
-- **Input:** `px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent`
+- **Input:** `px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent`
 
 ---
 
@@ -158,7 +159,7 @@ Shown when a month has no transactions yet.
 
 - Keep transitions subtle: `transition-colors duration-150` for hover states
 - No bounce, scale, or elaborate animations — they conflict with the minimalist tone
-- Focus states must always be visible (accessibility): use `focus:ring-2 focus:ring-amber-500`
+- Focus states must always be visible (accessibility): use `focus:ring-2 focus:ring-stone-500`
 - Loading states: use a simple `opacity-50 pointer-events-none` on the relevant element, no spinners unless the wait exceeds ~1s
 
 ---
