@@ -57,7 +57,7 @@ export default function TransactionForm({ month }: { month: string }) {
         />
         <button
           type="submit"
-          className="px-3 py-2 text-amber-700 hover:text-amber-800 hover:bg-amber-50 rounded transition-colors duration-150"
+          className="px-3 py-2 text-stone-700 hover:text-stone-800 hover:bg-stone-300 rounded transition-colors duration-150"
           aria-label="Add transaction"
         >
           <Plus size={16} />

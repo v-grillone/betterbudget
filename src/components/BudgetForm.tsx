@@ -32,7 +32,7 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
           min="0"
           defaultValue={budget?.monthly_amount}
           required
-          className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+          className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
         />
       </div>
       <div className="flex flex-col gap-1">
@@ -45,7 +45,7 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
           max="100"
           defaultValue={budget?.needs_pct ?? 50}
           required
-          className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+          className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
         />
       </div>
       <div className="flex flex-col gap-1">
@@ -58,7 +58,7 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
           max="100"
           defaultValue={budget?.wants_pct ?? 30}
           required
-          className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+          className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
         />
       </div>
       <div className="flex flex-col gap-1">
@@ -71,14 +71,14 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
           max="100"
           defaultValue={budget?.investing_pct ?? 20}
           required
-          className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+          className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
         />
       </div>
       {error && <p className="text-xs text-red-600">{error}</p>}
       <button
         type="submit"
         disabled={pending}
-        className={`px-4 py-2 text-sm font-medium text-white bg-amber-700 rounded hover:bg-amber-800 transition-colors duration-150 ${pending ? 'opacity-50 pointer-events-none' : ''}`}
+        className={`px-4 py-2 text-sm font-medium text-white bg-stone-700 rounded hover:bg-stone-800 transition-colors duration-150 ${pending ? 'opacity-50 pointer-events-none' : ''}`}
       >
         {pending ? 'Saving...' : budget ? 'Update budget' : 'Set budget'}
       </button>
