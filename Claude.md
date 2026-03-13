@@ -2,9 +2,11 @@
 
 - In all interactions and commit messages, be extremely concise. Sacrifice grammar for the sake of concision.
 
-- We are building a budgeting app called betterbudget. The main goal of this app is to have the user input daily transactions for 3 category types: needs, wants, and investing. The user sets a monthly budget amount and decides how the percentages should be divided between the 3 categories. Example: 50% needs, 30% wants, and 20% investing.
+- We are building a budgeting app called betterbudget. The main goal of this app is to have the user input daily transactions for 3 category types: needs, wants, and investing. The user sets a weekly budget amount (from which daily = weekly/7 and monthly = daily × daysInMonth are derived) and decides how the percentages should be divided between the 3 categories. Example: 50% needs, 30% wants, and 20% investing.
 
 - Ask questions during development whenever you're not 100% sure about something or need clarification.
+
+- When in plan mode, always check CLAUDE.md and DESIGN.md for conflicts with the proposed changes. Surface any conflicts to the user and update those files as part of the plan if changes are approved.
 
 ## Tech Stack and Tools
 - TypeScript

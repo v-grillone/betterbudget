@@ -12,6 +12,11 @@ function currentMonth() {
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
 }
 
+function daysInMonth(yyyyMm: string): number {
+  const [y, m] = yyyyMm.split('-').map(Number)
+  return new Date(y, m, 0).getDate()
+}
+
 export default async function Home({
   searchParams,
 }: {
@@ -24,6 +29,10 @@ export default async function Home({
   const year = Number(month.split('-')[0])
 
   const [budget, transactions] = await Promise.all([getBudget(), getTransactions(month)])
+
+  const days = daysInMonth(month)
+  const dailyBudget = (budget?.weekly_amount ?? 0) / 7
+  const monthlyBudget = dailyBudget * days
 
   return (
     <div className="min-h-screen bg-stone-50">
@@ -51,9 +60,9 @@ export default async function Home({
 
           {/* Ledger */}
           <div className="bg-white border border-t-0 border-stone-200 rounded-b-lg px-4 pb-6">
-            <LedgerTable transactions={transactions} />
+            <BudgetChart transactions={transactions} budget={budget} dailyBudget={dailyBudget} monthlyBudget={monthlyBudget} days={days} />
             <TransactionForm month={month} />
-            <BudgetChart transactions={transactions} budget={budget} />
+            <LedgerTable transactions={transactions} />
           </div>
         </div>
 
