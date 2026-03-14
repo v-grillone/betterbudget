@@ -6,7 +6,7 @@ import { Settings } from 'lucide-react'
 import { useState } from 'react'
 
 type Budget = {
-  monthly_amount: number
+  weekly_amount: number
   needs_pct: number
   wants_pct: number
   investing_pct: number

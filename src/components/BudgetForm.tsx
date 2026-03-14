@@ -1,16 +1,18 @@
 'use client'
 
 import { upsertBudget } from '@/app/actions/budget'
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 
 type Budget = {
-  monthly_amount: number
+  weekly_amount: number
   needs_pct: number
   wants_pct: number
   investing_pct: number
 } | null
 
 export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSuccess?: () => void }) {
+  const [weeklyAmount, setWeeklyAmount] = useState(budget?.weekly_amount ?? 0)
+
   const [error, action, pending] = useActionState(
     async (prev: string | undefined, formData: FormData) => {
       const result = await upsertBudget(prev, formData)
@@ -20,20 +22,29 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
     undefined
   )
 
+  const dailyBudget = weeklyAmount / 7
+
   return (
     <form action={action} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <label htmlFor="monthly_amount" className="text-xs font-medium text-stone-500 uppercase tracking-wide">Monthly amount</label>
+        <label htmlFor="weekly_amount" className="text-xs font-medium text-stone-500 uppercase tracking-wide">Weekly amount</label>
         <input
-          id="monthly_amount"
-          name="monthly_amount"
+          id="weekly_amount"
+          name="weekly_amount"
           type="number"
           step="0.01"
           min="0"
-          defaultValue={budget?.monthly_amount}
+          value={weeklyAmount}
+          onChange={e => setWeeklyAmount(parseFloat(e.target.value) || 0)}
           required
           className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
         />
+      </div>
+      <div className="flex flex-col gap-1">
+        <label className="text-xs font-medium text-stone-500 uppercase tracking-wide">Daily budget</label>
+        <div className="px-3 py-2 text-sm border border-stone-200 rounded bg-stone-100 text-stone-400 cursor-not-allowed">
+          ${dailyBudget.toFixed(2)}
+        </div>
       </div>
       <div className="flex flex-col gap-1">
         <label htmlFor="needs_pct" className="text-xs font-medium text-stone-500 uppercase tracking-wide">Needs %</label>

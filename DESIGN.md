@@ -2,7 +2,7 @@
 
 ## Overview
 
-A minimalist budgeting app with a file-folder navigation model. Users drill down from year → month. Each ledger contains the days of the month, allowing users to add transactions for each day. The aesthetic is calm, warm, and distraction-free — the UI should feel like a well-organized notebook, not a dashboard. At the bottom of each monthly ledger, there should be a doughnut pie chart showing the percentage breakdown of the month's needs, wants, and investing, along with a running total of each category’s spending and how much is left over from the monthly total budget.
+A minimalist budgeting app with a file-folder navigation model. Users drill down from year → month. Each ledger contains the days of the month, allowing users to add transactions for each day. The aesthetic is calm, warm, and distraction-free — the UI should feel like a well-organized notebook, not a dashboard. At the top of each monthly ledger, there should be a doughnut pie chart showing the percentage breakdown of the month’s needs, wants, and investing, along with a running total of each category’s spending and how much is left over from the monthly total budget.
 
 ---
 
@@ -97,23 +97,26 @@ The core UI — a simple, scannable table of daily transactions.
 
 ### Ledger Pie Chart
 
-Displayed at the bottom of each monthly ledger. Shows the spending breakdown across the three budget categories — Needs, Wants, and Investing — as a doughnut chart, alongside a summary of each category's total spent and remaining budget.
+Displayed at the top of each monthly ledger, above the transaction table. Shows the spending breakdown across the three budget categories — Needs, Wants, and Investing — as a doughnut chart, alongside a summary of each category's total spent and remaining budget.
 
 - **Chart type:** Doughnut (not pie) — use a clean center hole to display the net remaining balance
 - **Chart colors:** Use the category palette exactly — `bg-indigo-400` for Needs, `bg-red-400` for Wants, `bg-emerald-400` for Investing
 - **Chart library:** Use `recharts` (`PieChart` + `Pie` with `innerRadius`) — no external charting dependencies beyond what's already in the stack
-- **Layout:** Chart and category summary sit side by side (`flex gap-6`), chart on the left, summary on the right
-- **Category summary rows** (one per category):
+- **Layout:** Chart and category summary sit side by side (`flex gap-6 items-start`), chart on the left, summary on the right
+- **Monthly Budget formula:** Displayed as the first element in the right column — `Monthly Budget: $X.XX/day × Y days = $Z.XX/mo` — `text-xs text-stone-400`
+- **Category summary rows** (one per category, below the formula line):
   - Label with color swatch dot (`w-2.5 h-2.5 rounded-full` in category color)
+  - Label includes budget allocation %: e.g. `Needs (50%)` — `text-sm text-stone-500 w-28`
   - Total spent: `text-sm text-stone-800`
+  - Spending % of total: `text-xs text-stone-400` — omit if no transactions
   - Remaining: `text-xs text-stone-500`
-- **Section wrapper:** `mt-8 pt-6 border-t border-stone-200`
+- **Section wrapper:** `py-6 border-b border-stone-200`
 - If no transactions exist for a category, show its segment as empty/gray (`bg-stone-200`) rather than omitting it
 - Do not show a legend inside the chart — the summary rows serve that role
 
 ### Transaction Input Row
 
-A lightweight inline form at the bottom of the ledger (not a modal).
+A lightweight inline form between the budget summary and the transaction table (not a modal).
 
 - **Row:** `border-t border-stone-200 bg-white`
 - **Input field:** `w-full px-3 py-2 text-sm bg-transparent border-none outline-none placeholder:text-stone-400 focus:ring-0`
@@ -126,7 +129,7 @@ A lightweight inline form at the bottom of the ledger (not a modal).
 Shown when a month has no transactions yet.
 
 - Centered in the ledger area, `text-stone-400`
-- Short, calm copy: e.g. "No transactions yet. Add one below."
+- Short, calm copy: e.g. "No transactions yet. Add one above."
 - No illustrations or icons unless explicitly requested
 
 ### Buttons

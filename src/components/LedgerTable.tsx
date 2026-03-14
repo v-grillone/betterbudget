@@ -21,7 +21,7 @@ const amountClass: Record<string, string> = {
 
 export default function LedgerTable({ transactions }: { transactions: Transaction[] }) {
   return (
-    <div className="w-full border border-stone-200 rounded-lg overflow-hidden">
+    <div className="mt-4 w-full border border-stone-200 rounded-lg overflow-hidden">
       <table className="w-full">
         <thead className="bg-stone-100">
           <tr>
@@ -35,7 +35,7 @@ export default function LedgerTable({ transactions }: { transactions: Transactio
           {transactions.length === 0 ? (
             <tr>
               <td colSpan={4} className="px-3 py-8 text-center text-sm text-stone-400">
-                No transactions yet. Add one below.
+                No transactions yet. Add one above.
               </td>
             </tr>
           ) : (

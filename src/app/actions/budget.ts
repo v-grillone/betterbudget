@@ -22,7 +22,7 @@ export async function upsertBudget(_: string | undefined, formData: FormData): P
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return 'Not authenticated'
 
-  const monthly_amount = parseFloat(formData.get('monthly_amount') as string)
+  const weekly_amount = parseFloat(formData.get('weekly_amount') as string)
   const needs_pct = parseFloat(formData.get('needs_pct') as string)
   const wants_pct = parseFloat(formData.get('wants_pct') as string)
   const investing_pct = parseFloat(formData.get('investing_pct') as string)
@@ -33,7 +33,7 @@ export async function upsertBudget(_: string | undefined, formData: FormData): P
 
   const { error } = await supabase
     .from('budgets')
-    .upsert({ user_id: user.id, monthly_amount, needs_pct, wants_pct, investing_pct }, { onConflict: 'user_id' })
+    .upsert({ user_id: user.id, weekly_amount, needs_pct, wants_pct, investing_pct }, { onConflict: 'user_id' })
 
   if (error) return error.message
 
