@@ -73,15 +73,25 @@ Uses Tailwind's default 4px base grid. Be consistent — prefer named scale step
 
 ## Component Patterns
 
-### Folder Tabs (Year/Month Navigation)
+### Year Selector
 
-The top nav mimics a physical file folder. Tabs sit above the content surface and feel like they're lifting the page up.
+A compact native `<select>` placed above the month tab strip, left-aligned. Allows navigating to a different year while preserving the active month.
 
-- **Container:** `flex border-b border-stone-200 bg-stone-50 px-4`
-- **Inactive tab:** `px-4 py-2 text-sm text-stone-500 bg-stone-100 border border-b-0 border-stone-200 rounded-t cursor-pointer hover:bg-stone-300 hover:text-stone-700`
-- **Active tab:** `px-4 py-2 text-sm font-medium text-stone-800 bg-white border border-b-0 border-stone-200 rounded-t -mb-px`
-- Tabs should be spaced with `gap-1` and never wrap — use horizontal scroll on overflow
-- The active tab visually "connects" to the content surface below (no bottom border)
+- **Wrapper:** `flex items-center gap-2 mb-2`
+- **Label:** `text-xs font-medium text-stone-500 uppercase tracking-wide` — text "Year"
+- **Select:** `px-2 py-1 text-sm text-stone-700 bg-white border border-stone-200 rounded focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent cursor-pointer`
+- Year range: current year −4 to current year (5 options)
+- On change: push `/?month=YYYY-MM` with selected year + current month number
+
+### Folder Tabs (Month Navigation)
+
+The month tab strip sits below the year selector. Tabs span the full ledger width and feel like file folder tabs lifting the page up.
+
+- **Container:** `flex border-b border-stone-200 bg-stone-50`
+- **Inactive tab:** `flex-1 px-1 py-2 text-sm text-center text-stone-500 bg-stone-100 border border-b-0 border-stone-200 rounded-t cursor-pointer hover:bg-stone-300 hover:text-stone-700 transition-colors duration-150 not-first:border-l-0`
+- **Active tab:** `flex-1 px-1 py-2 text-sm font-medium text-center text-stone-800 bg-white border border-b-0 border-stone-200 rounded-t -mb-px not-first:border-l-0`
+- Tabs divide the full container width equally (`flex-1`); no gap, no overflow scroll
+- The active tab visually "connects" to the content surface below (no bottom border, `-mb-px`)
 
 ### Ledger Table
 

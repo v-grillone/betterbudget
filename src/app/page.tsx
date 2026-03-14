@@ -6,6 +6,7 @@ import BudgetModal from '@/components/BudgetModal'
 import LedgerTable from '@/components/LedgerTable'
 import MonthTabs from '@/components/MonthTabs'
 import TransactionForm from '@/components/TransactionForm'
+import YearSelect from '@/components/YearSelect'
 
 function currentMonth() {
   const now = new Date()
@@ -56,6 +57,7 @@ export default async function Home({
 
         {/* Month tabs */}
         <div className="mt-6">
+          <YearSelect activeYear={year} activeMonthNum={month.split('-')[1]} />
           <MonthTabs year={year} activeMonth={month} />
 
           {/* Ledger */}
