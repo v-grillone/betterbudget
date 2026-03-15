@@ -1,16 +1,12 @@
 'use client'
 
 import { upsertBudget } from '@/app/actions/budget'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import type { Budget } from '@/lib/types'
 import { useActionState, useState } from 'react'
 
-type Budget = {
-  weekly_amount: number
-  needs_pct: number
-  wants_pct: number
-  investing_pct: number
-} | null
-
-export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSuccess?: () => void }) {
+export default function BudgetForm({ budget, onSuccess }: { budget: Budget | null; onSuccess?: () => void }) {
   const [weeklyAmount, setWeeklyAmount] = useState(budget?.weekly_amount ?? 0)
 
   const [error, action, pending] = useActionState(
@@ -28,7 +24,7 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
     <form action={action} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
         <label htmlFor="weekly_amount" className="text-xs font-medium text-stone-500 uppercase tracking-wide">Weekly amount</label>
-        <input
+        <Input
           id="weekly_amount"
           name="weekly_amount"
           type="number"
@@ -37,7 +33,6 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
           value={weeklyAmount}
           onChange={e => setWeeklyAmount(parseFloat(e.target.value) || 0)}
           required
-          className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
         />
       </div>
       <div className="flex flex-col gap-1">
@@ -48,7 +43,7 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
       </div>
       <div className="flex flex-col gap-1">
         <label htmlFor="needs_pct" className="text-xs font-medium text-stone-500 uppercase tracking-wide">Needs %</label>
-        <input
+        <Input
           id="needs_pct"
           name="needs_pct"
           type="number"
@@ -56,12 +51,11 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
           max="100"
           defaultValue={budget?.needs_pct ?? 50}
           required
-          className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
         />
       </div>
       <div className="flex flex-col gap-1">
         <label htmlFor="wants_pct" className="text-xs font-medium text-stone-500 uppercase tracking-wide">Wants %</label>
-        <input
+        <Input
           id="wants_pct"
           name="wants_pct"
           type="number"
@@ -69,12 +63,11 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
           max="100"
           defaultValue={budget?.wants_pct ?? 30}
           required
-          className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
         />
       </div>
       <div className="flex flex-col gap-1">
         <label htmlFor="investing_pct" className="text-xs font-medium text-stone-500 uppercase tracking-wide">Investing %</label>
-        <input
+        <Input
           id="investing_pct"
           name="investing_pct"
           type="number"
@@ -82,17 +75,12 @@ export default function BudgetForm({ budget, onSuccess }: { budget: Budget; onSu
           max="100"
           defaultValue={budget?.investing_pct ?? 20}
           required
-          className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
         />
       </div>
       {error && <p className="text-xs text-red-600">{error}</p>}
-      <button
-        type="submit"
-        disabled={pending}
-        className={`px-4 py-2 text-sm font-medium text-white bg-stone-700 rounded hover:bg-stone-800 transition-colors duration-150 ${pending ? 'opacity-50 pointer-events-none' : ''}`}
-      >
+      <Button type="submit" disabled={pending} className="w-full bg-stone-700 hover:bg-stone-800">
         {pending ? 'Saving...' : budget ? 'Update budget' : 'Set budget'}
-      </button>
+      </Button>
     </form>
   )
 }

@@ -20,10 +20,25 @@
 ## Database Schema
 
 - Users: id | user_id | name | email | password
-- Transactions : id | transaction_id | user_id | category | desccription | amount
+- Transactions: id | transaction_id | user_id | category | description | amount
+
+## Shared Logic Rules
+
+Follow these rules strictly. Inline helpers inside components/pages are only allowed if the logic is used in exactly one place and is trivial enough that extracting it would add no clarity.
+
+| What | Where |
+|------|-------|
+| Date/month utilities (`currentMonth`, `daysInMonth`, `formatDate`, etc.) | `src/lib/dates.ts` |
+| Shared constants (`MONTHS`, `CATEGORIES`, `AMOUNT_CLASS`, etc.) | `src/lib/constants.ts` |
+| Shared TypeScript types/interfaces (`Budget`, `Transaction`, etc.) | `src/lib/types.ts` |
+| Generic utilities (`cn`, etc.) | `src/lib/utils.ts` |
+| Custom React hooks (`useX` pattern) | `src/hooks/` |
+| Server-side Supabase client | `src/lib/supabase/server.ts` |
+| Browser-side Supabase client | `src/lib/supabase/client.ts` |
 
 ## Design Principles
 - This project follows the design system in `DESIGN.md`. Always reference it before creating or editing any UI components. Do not introduce colors, fonts, or spacing values not defined there.
+- Always use shadcn/ui components before writing custom HTML elements. Install new components via `npx shadcn@latest add <name>` as needed.
 
 ## Directory Structure
 
@@ -49,16 +64,25 @@ betterbudget/
 │   │   └── page.tsx        ← homepage /
 │   │
 │   ├── components/         ← reusable UI components
+│   │   ├── ui/             ← shadcn/ui primitives
+│   │   ├── BudgetChart.tsx
 │   │   ├── BudgetForm.tsx
-│   │   └── TransactionForm.tsx
+│   │   ├── BudgetModal.tsx
+│   │   ├── LedgerTable.tsx
+│   │   ├── MonthTabs.tsx
+│   │   ├── TransactionForm.tsx
+│   │   └── YearSelect.tsx
 │   │
-│   ├── hooks/              ← custom React hooks
+│   ├── hooks/              ← custom React hooks (useX pattern only)
 │   │
 │   └── lib/                ← utilities, configs, DB access
 │       ├── supabase/
 │       │   ├── client.ts   ← browser Supabase client
 │       │   └── server.ts   ← server Supabase client
-│       └── utils.ts
+│       ├── constants.ts    ← shared constants (MONTHS, CATEGORIES, etc.)
+│       ├── dates.ts        ← date/month utility functions
+│       ├── types.ts        ← shared TypeScript types/interfaces
+│       └── utils.ts        ← generic utilities (cn, etc.)
 │
 ├── supabase/               ← DB migrations
 ├── .env
