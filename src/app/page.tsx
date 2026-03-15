@@ -6,17 +6,9 @@ import BudgetModal from '@/components/BudgetModal'
 import LedgerTable from '@/components/LedgerTable'
 import MonthTabs from '@/components/MonthTabs'
 import TransactionForm from '@/components/TransactionForm'
+import { Button } from '@/components/ui/button'
 import YearSelect from '@/components/YearSelect'
-
-function currentMonth() {
-  const now = new Date()
-  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
-}
-
-function daysInMonth(yyyyMm: string): number {
-  const [y, m] = yyyyMm.split('-').map(Number)
-  return new Date(y, m, 0).getDate()
-}
+import { currentMonth, daysInMonth } from '@/lib/dates'
 
 export default async function Home({
   searchParams,
@@ -45,12 +37,9 @@ export default async function Home({
           <div className="flex items-center gap-2">
             <BudgetModal budget={budget} />
             <form action={signOut}>
-              <button
-                type="submit"
-                className="px-3 py-1.5 text-sm text-stone-500 rounded hover:bg-stone-100 transition-colors duration-150"
-              >
+              <Button type="submit" variant="ghost" className="text-stone-500">
                 Sign out
-              </button>
+              </Button>
             </form>
           </div>
         </header>

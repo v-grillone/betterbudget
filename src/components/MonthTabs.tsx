@@ -1,8 +1,7 @@
 'use client'
 
+import { MONTHS } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
-
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 interface MonthTabsProps {
   year: number

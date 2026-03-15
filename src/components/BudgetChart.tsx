@@ -1,18 +1,8 @@
 'use client'
 
+import { CATEGORIES } from '@/lib/constants'
+import type { Budget, Transaction } from '@/lib/types'
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts'
-
-interface Transaction {
-  category: string
-  amount: number
-}
-
-interface Budget {
-  weekly_amount: number
-  needs_pct: number
-  wants_pct: number
-  investing_pct: number
-}
 
 interface Props {
   transactions: Transaction[]
@@ -21,12 +11,6 @@ interface Props {
   monthlyBudget: number
   days: number
 }
-
-const CATEGORIES = [
-  { key: 'needs',     label: 'Needs',     color: '#818cf8', swatch: 'bg-indigo-400', pctKey: 'needs_pct'     },
-  { key: 'wants',     label: 'Wants',     color: '#f87171', swatch: 'bg-red-400',    pctKey: 'wants_pct'     },
-  { key: 'investing', label: 'Investing', color: '#34d399', swatch: 'bg-emerald-400', pctKey: 'investing_pct' },
-]
 
 export default function BudgetChart({ transactions, budget, dailyBudget, monthlyBudget, days }: Props) {
   const monthly = monthlyBudget
