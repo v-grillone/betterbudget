@@ -26,13 +26,15 @@
 
 Follow these rules strictly. Inline helpers inside components/pages are only allowed if the logic is used in exactly one place and is trivial enough that extracting it would add no clarity.
 
+**Hook rule**: extract to `src/hooks/` only when stateful logic (state + effects/transitions) appears in 2+ components and is non-trivial enough that the hook reduces real complexity. A single `useState` line or plain `useRouter()` call does not qualify.
+
 | What | Where |
 |------|-------|
 | Date/month utilities (`currentMonth`, `daysInMonth`, `formatDate`, etc.) | `src/lib/dates.ts` |
 | Shared constants (`MONTHS`, `CATEGORIES`, `AMOUNT_CLASS`, etc.) | `src/lib/constants.ts` |
 | Shared TypeScript types/interfaces (`Budget`, `Transaction`, etc.) | `src/lib/types.ts` |
 | Generic utilities (`cn`, etc.) | `src/lib/utils.ts` |
-| Custom React hooks (`useX` pattern) | `src/hooks/` |
+| Stateful logic reused across 2+ components (state + effects/transitions) | `src/hooks/` |
 | Server-side Supabase client | `src/lib/supabase/server.ts` |
 | Browser-side Supabase client | `src/lib/supabase/client.ts` |
 

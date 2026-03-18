@@ -1,12 +1,13 @@
-import { signOut } from '@/app/actions/auth'
+import { getUser } from '@/app/actions/auth'
 import { getBudget } from '@/app/actions/budget'
 import { getTransactions } from '@/app/actions/transactions'
 import BudgetChart from '@/components/BudgetChart'
 import BudgetModal from '@/components/BudgetModal'
 import LedgerTable from '@/components/LedgerTable'
 import MonthTabs from '@/components/MonthTabs'
+import SettingsModal from '@/components/SettingsModal'
 import TransactionForm from '@/components/TransactionForm'
-import { Button } from '@/components/ui/button'
+import WelcomeMessage from '@/components/WelcomeMessage'
 import YearSelect from '@/components/YearSelect'
 import { currentMonth, daysInMonth } from '@/lib/dates'
 
@@ -21,7 +22,7 @@ export default async function Home({
     : currentMonth()
   const year = Number(month.split('-')[0])
 
-  const [budget, transactions] = await Promise.all([getBudget(), getTransactions(month)])
+  const [budget, transactions, name] = await Promise.all([getBudget(), getTransactions(month), getUser()])
 
   const days = daysInMonth(month)
   const dailyBudget = (budget?.weekly_amount ?? 0) / 7
@@ -36,16 +37,14 @@ export default async function Home({
           <h1 className="text-xl font-semibold text-stone-800">betterbudget</h1>
           <div className="flex items-center gap-2">
             <BudgetModal budget={budget} />
-            <form action={signOut}>
-              <Button type="submit" variant="ghost" className="text-stone-500">
-                Sign out
-              </Button>
-            </form>
+            <SettingsModal name={name} />
           </div>
         </header>
 
+        <WelcomeMessage name={name} />
+
         {/* Month tabs */}
-        <div className="mt-6">
+        <div className="mt-2">
           <YearSelect activeYear={year} activeMonthNum={month.split('-')[1]} />
           <MonthTabs year={year} activeMonth={month} />
 

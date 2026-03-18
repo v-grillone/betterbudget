@@ -2,7 +2,7 @@
 
 import BudgetForm from '@/components/BudgetForm'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Settings } from 'lucide-react'
+import { ChartPie } from 'lucide-react'
 import { useState } from 'react'
 
 type Budget = {
@@ -20,10 +20,10 @@ export default function BudgetModal({ budget }: { budget: Budget }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="p-1.5 rounded text-stone-500 hover:bg-stone-100 transition-colors duration-150"
+        className="p-1.5 rounded text-stone-500 hover:bg-stone-300 cursor-pointer transition-colors duration-150"
         aria-label="Budget settings"
       >
-        <Settings size={18} />
+        <ChartPie size={18} />
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>

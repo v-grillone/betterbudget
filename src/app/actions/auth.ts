@@ -1,7 +1,9 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 export async function signUp(_: string | undefined, formData: FormData): Promise<string | undefined> {
   const supabase = await createClient()
@@ -43,5 +45,51 @@ export async function signIn(_: string | undefined, formData: FormData): Promise
 export async function signOut() {
   const supabase = await createClient()
   await supabase.auth.signOut()
+  redirect('/signin')
+}
+
+export async function getUser(): Promise<string | null> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  return user?.user_metadata?.name ?? null
+}
+
+export async function changeName(_: string | undefined, formData: FormData): Promise<string | undefined> {
+  const supabase = await createClient()
+
+  const name = String(formData.get('name') ?? '').trim()
+  if (!name) return 'Name is required.'
+
+  const { error } = await supabase.auth.updateUser({ data: { name } })
+  if (error) return error.message
+
+  revalidatePath('/')
+}
+
+export async function changePassword(_: string | undefined, formData: FormData): Promise<string | undefined> {
+  const supabase = await createClient()
+
+  const password = String(formData.get('password') ?? '').trim()
+  if (!password || password.length < 8) return 'Password must be at least 8 characters.'
+
+  const { error } = await supabase.auth.updateUser({ password })
+  if (error) return error.message
+}
+
+export async function deleteAccount(): Promise<string | undefined> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return 'Not authenticated.'
+
+  const uid = user.id
+
+  await supabase.from('transactions').delete().eq('user_id', uid)
+  await supabase.from('budgets').delete().eq('user_id', uid)
+  await supabase.from('users').delete().eq('user_id', uid)
+
+  const admin = createAdminClient()
+  const { error } = await admin.auth.admin.deleteUser(uid)
+  if (error) return error.message
+
   redirect('/signin')
 }
