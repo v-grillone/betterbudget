@@ -85,6 +85,7 @@ export async function deleteAccount(): Promise<string | undefined> {
 
   await supabase.from('transactions').delete().eq('user_id', uid)
   await supabase.from('budgets').delete().eq('user_id', uid)
+  await supabase.from('feedback').delete().eq('user_id', uid)
   await supabase.from('users').delete().eq('user_id', uid)
 
   const admin = createAdminClient()
