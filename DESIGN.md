@@ -134,6 +134,17 @@ A lightweight inline form between the budget summary and the transaction table (
 - Submit with Enter key; show a small `+` icon button as a visual affordance
 - **Add button:** `text-stone-700 hover:text-stone-800 p-1 rounded hover:bg-stone-300`
 
+### Welcome Message
+
+Displayed below the header and above the month tabs. Greets the user by name with a time-sensitive salutation.
+
+- **Typography:** `text-sm text-stone-500`
+- **Name:** `font-medium text-stone-700` (inline `<span>`)
+- **Greeting periods:** Good morning (5–11), Good afternoon (12–17), Good evening (18–20), Good night (21–4) — determined client-side via `new Date().getHours()`
+- **Copy (with name):** `"Good [period], [name]. Let's add to your budget."`
+- **Copy (no name):** `"Good [period]. Let's add to your budget."`
+- **Spacing:** `mb-6` below the element
+
 ### Empty State
 
 Shown when a month has no transactions yet.

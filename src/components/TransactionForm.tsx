@@ -13,8 +13,8 @@ export default function TransactionForm({ month }: { month: string }) {
   const [category, setCategory] = useState('needs')
 
   return (
-    <form action={action} aria-busy={pending}>
-      <fieldset disabled={pending} className={`border-0 border-t border-stone-200 p-0 m-0 min-w-0 bg-white flex items-center gap-0 ${pending ? 'opacity-50' : ''}`}>
+    <form action={action} aria-busy={pending} className="mt-4">
+      <fieldset disabled={pending} className={`border-0 p-0 m-0 min-w-0 bg-white flex items-center gap-0 ${pending ? 'opacity-50' : ''}`}>
         <Input
           name="date"
           type="date"
@@ -33,7 +33,7 @@ export default function TransactionForm({ month }: { month: string }) {
         />
         <input type="hidden" name="category" value={category} />
         <Select value={category} onValueChange={setCategory}>
-          <SelectTrigger aria-label="Category" className="w-28 border-none bg-transparent shadow-none focus:ring-0 text-stone-500">
+          <SelectTrigger aria-label="Category" className="w-28 border-none bg-transparent shadow-none focus:ring-0 text-stone-500 cursor-pointer">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -57,7 +57,7 @@ export default function TransactionForm({ month }: { month: string }) {
           variant="ghost"
           size="icon"
           aria-label="Add transaction"
-          className="text-stone-700 hover:text-stone-800 hover:bg-stone-300"
+          className="text-stone-700 hover:text-stone-800 hover:bg-stone-300 cursor-pointer"
         >
           <Plus size={16} />
         </Button>
