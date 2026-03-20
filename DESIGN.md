@@ -100,7 +100,7 @@ The core UI — a simple, scannable table of daily transactions.
 - **Table wrapper:** `w-full border border-stone-200 rounded-lg overflow-hidden`
 - **Header row:** `bg-stone-100 text-xs font-medium text-stone-500 uppercase tracking-wide`
 - **Header cell:** `px-3 py-2 text-left`
-- **Data row:** `border-t border-stone-200 hover:bg-stone-300 transition-colors`
+- **Data row:** `border-t border-stone-200 hover:bg-stone-300 transition-colors cursor-pointer`
 - **Data cell:** `px-3 py-3 text-sm`
 - **Alternate rows:** Do not use zebra striping — use hover state only
 - Columns (suggested order): Date · Description · Category · Amount 
@@ -123,6 +123,24 @@ Displayed at the top of each monthly ledger, above the transaction table. Shows 
 - **Section wrapper:** `py-6 border-b border-stone-200`
 - If no transactions exist for a category, show its segment as empty/gray (`bg-stone-200`) rather than omitting it
 - Do not show a legend inside the chart — the summary rows serve that role
+
+### Transaction Modal
+
+Opened when the user clicks a row in the Ledger Table. Allows editing or deleting the selected transaction.
+
+- **Trigger:** clicking any data row in LedgerTable
+- **Component:** shadcn `Dialog` (controlled), `max-w-sm`
+- **Container:** `bg-white border border-stone-200 shadow-md rounded-xl p-6`
+- **Title:** `text-sm font-semibold text-stone-800` — "Edit Transaction"
+- **Fields:** Date, Description, Category (Select), Amount — pre-filled with the clicked transaction's values
+- **Field wrapper:** `flex flex-col gap-1`
+- **Label:** `text-xs font-medium text-stone-500 uppercase tracking-wide`
+- **Input:** standard Form Input pattern (see Form Inputs section)
+- **Footer layout:** `flex justify-between gap-2 mt-1` — Delete on left, Save on right
+- **Save button:** Primary — `bg-stone-700 text-white hover:bg-stone-800`
+- **Delete button:** Destructive — `bg-white text-red-500 border border-red-200 hover:bg-red-50`
+- Both buttons show pending copy ("Saving…" / "Deleting…") and are disabled while either action is in-flight
+- Error message (if any): `text-xs text-red-600`, displayed above the footer
 
 ### Transaction Input Row
 
