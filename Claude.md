@@ -73,6 +73,7 @@ betterbudget/
 │   │   ├── LedgerTable.tsx
 │   │   ├── MonthTabs.tsx
 │   │   ├── TransactionForm.tsx
+│   │   ├── TransactionModal.tsx
 │   │   └── YearSelect.tsx
 │   │
 │   ├── hooks/              ← custom React hooks (useX pattern only)

@@ -49,3 +49,41 @@ export async function addTransaction(_: string | undefined, formData: FormData):
 
   revalidatePath('/')
 }
+
+export async function updateTransaction(_: string | undefined, formData: FormData): Promise<string | undefined> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return 'Not authenticated'
+
+  const id = formData.get('id') as string
+  const category = formData.get('category') as string
+  const description = formData.get('description') as string
+  const amount = parseFloat(formData.get('amount') as string)
+  const date = formData.get('date') as string
+
+  const { error } = await supabase
+    .from('transactions')
+    .update({ category, description, amount, date })
+    .eq('id', id)
+    .eq('user_id', user.id)
+
+  if (error) return error.message
+
+  revalidatePath('/')
+}
+
+export async function deleteTransaction(id: string): Promise<string | undefined> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return 'Not authenticated'
+
+  const { error } = await supabase
+    .from('transactions')
+    .delete()
+    .eq('id', id)
+    .eq('user_id', user.id)
+
+  if (error) return error.message
+
+  revalidatePath('/')
+}
