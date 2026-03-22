@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 80">
+  <title>betterbudget wordmark</title>
+  <!--
+    Font: Raleway Light 300 via Google Fonts.
+    For offline / print use, install Raleway locally or embed the font data.
+  -->
+  <defs>
+    <style><![CDATA[
+      @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
+    ]]></style>
+  </defs>
+
+  <!-- bb mark — nested SVG keeps the original coordinate system intact -->
+  <svg x="0" y="5" width="82" height="70" viewBox="0 0 240 204">
+    <defs>
+      <mask id="wm1">
+        <rect width="240" height="204" fill="white"/>
+        <path d="M 22,10 H 32 L 67,194 H 57 Z" fill="black"/>
+      </mask>
+      <mask id="wm2">
+        <rect width="240" height="204" fill="white"/>
+        <path d="M 121,10 H 131 L 166,194 H 156 Z" fill="black"/>
+      </mask>
+    </defs>
+    <path d="M 22,10 H 32 L 67,194 H 57 Z" fill="#57534e"/>
+    <path d="M 121,10 H 131 L 166,194 H 156 Z" fill="#57534e"/>
+    <circle cx="80"  cy="136" r="44" fill="none" stroke="#57534e" stroke-width="10" mask="url(#wm1)"/>
+    <circle cx="179" cy="136" r="44" fill="none" stroke="#57534e" stroke-width="10" mask="url(#wm2)"/>
+  </svg>
+
+  <!-- "betterbudget" — vertically centred on the circle midpoint (y ≈ 52) -->
+  <text
+    x="98"
+    y="52"
+    font-family="'Raleway', 'Helvetica Neue', Arial, sans-serif"
+    font-weight="300"
+    font-size="28"
+    fill="#57534e"
+    dominant-baseline="middle"
+    letter-spacing="0.5"
+  >betterbudget</text>
+</svg>

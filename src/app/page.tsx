@@ -10,6 +10,7 @@ import TransactionForm from '@/components/TransactionForm'
 import WelcomeMessage from '@/components/WelcomeMessage'
 import YearSelect from '@/components/YearSelect'
 import { currentMonth, daysInMonth } from '@/lib/dates'
+import Image from 'next/image'
 
 export default async function Home({
   searchParams,
@@ -34,7 +35,10 @@ export default async function Home({
 
         {/* Header */}
         <header className="flex items-center justify-between mb-6">
-          <h1 className="text-xl font-semibold text-stone-800">betterbudget</h1>
+          <div className="flex items-center gap-2">
+            <Image src="/images/logos/bb-logo.svg" alt="" width={28} height={24} priority />
+            <span className="text-xl font-heading font-light text-stone-800">betterbudget</span>
+          </div>
           <div className="flex items-center gap-2">
             <BudgetModal budget={budget} />
             <SettingsModal name={name} />

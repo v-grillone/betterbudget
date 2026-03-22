@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 204">
+  <title>bb logo</title>
+  <defs>
+    <!-- Each mask knocks the bar shape out of its circle stroke,
+         so the ring reads on both sides of the bar — currency-symbol weave -->
+    <mask id="m1">
+      <rect width="240" height="204" fill="white"/>
+      <path d="M 22,10 H 32 L 67,194 H 57 Z" fill="black"/>
+    </mask>
+    <mask id="m2">
+      <rect width="240" height="204" fill="white"/>
+      <path d="M 121,10 H 131 L 166,194 H 156 Z" fill="black"/>
+    </mask>
+  </defs>
+
+  <!-- Bars: filled parallelograms, perfectly flat horizontal ends -->
+  <path d="M 22,10 H 32 L 67,194 H 57 Z" fill="#57534e"/>
+  <path d="M 121,10 H 131 L 166,194 H 156 Z" fill="#57534e"/>
+
+  <!-- Bowls: masked so the bar appears to pierce through the ring -->
+  <circle cx="80"  cy="136" r="44" fill="none" stroke="#57534e" stroke-width="10" mask="url(#m1)"/>
+  <circle cx="179" cy="136" r="44" fill="none" stroke="#57534e" stroke-width="10" mask="url(#m2)"/>
+</svg>
