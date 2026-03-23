@@ -13,7 +13,9 @@ export default function TransactionForm({ month }: { month: string }) {
   const [category, setCategory] = useState('needs')
 
   return (
-    <form action={action} aria-busy={pending} className="mt-4">
+    <>
+    <h2 className="px-3 pt-4 pb-0 text-lg font-heading font-bold text-stone-800">Add Transaction</h2>
+    <form action={action} aria-busy={pending} className="">
       <fieldset disabled={pending} className={`border-0 p-0 m-0 min-w-0 bg-white flex items-center gap-0 ${pending ? 'opacity-50' : ''}`}>
         <Input
           name="date"
@@ -68,5 +70,6 @@ export default function TransactionForm({ month }: { month: string }) {
         </p>
       )}
     </form>
+    </>
   )
 }

@@ -32,17 +32,39 @@ All colors map to Tailwind utility classes. Try to stay as close to this palette
 
 ---
 
+## Logo & Brand Assets
+
+Assets live in `public/images/logos/`.
+
+| Asset | File | Usage |
+|-------|------|-------|
+| Icon (SVG) | `bb-logo.svg` | App header, auth pages (paired with heading text), favicon (`src/app/icon.svg`) |
+| Wordmark (SVG) | `bb-logo-wordmark.svg` | Reserved — not used in UI (text too small at header scale) |
+| Icon PNGs | `bb-logo-{16–512}.png` | OG images, app manifests, raster-only contexts |
+
+**Rules:**
+- Always use SVG variants in UI (scalable, no blur)
+- In headers/auth: render icon at `width={28} height={24}` beside a `text-xl font-heading font-light text-stone-800` text span, wrapped in `flex items-center gap-2`
+- Never modify logo colors — icon uses `#57534e` (maps to `stone-600`)
+- Never use raster PNGs in UI components
+
+---
+
 ## Typography
 
-Font stack uses the system sans-serif for a clean, native feel. No external font imports unless explicitly added later.
+Two Google Fonts are used:
+- **Raleway** (weights 300, 700) — brand name + headings (`font-heading`)
+- **Montserrat** (weights 400, 500, 600) — body text (`font-sans`)
 
 ```
-font-family: font-sans (Tailwind default — system-ui, sans-serif)
+--font-sans:    Montserrat  (body, inputs, labels)
+--font-heading: Raleway     (brand name at 300, headings at 700)
 ```
 
-| Role              | Tailwind Classes                          | Usage                          |
-|-------------------|-------------------------------------------|--------------------------------|
-| Page Title        | `text-xl font-semibold text-stone-800`    | Year/month headings            |
+| Role              | Tailwind Classes                                    | Usage                          |
+|-------------------|-----------------------------------------------------|--------------------------------|
+| Brand Name        | `text-xl font-heading font-light text-stone-800`    | "betterbudget" logo text       |
+| Page Heading      | `font-heading font-bold text-stone-800`             | Section/page headings          |
 | Section Label     | `text-sm font-medium text-stone-500 uppercase tracking-wide` | Column headers, category labels |
 | Body / Input      | `text-sm text-stone-800`                  | Transaction rows, form inputs  |
 | Subtext / Meta    | `text-xs text-stone-500`                  | Dates, IDs, helper text        |

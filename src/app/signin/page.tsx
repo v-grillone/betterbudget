@@ -1,6 +1,7 @@
 'use client'
 
 import { signIn } from '@/app/actions/auth'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useActionState } from 'react'
 
@@ -10,7 +11,10 @@ export default function SignInPage() {
   return (
     <div className="min-h-screen bg-stone-50 flex items-center justify-center px-4">
       <div className="w-full max-w-sm bg-white border border-stone-200 rounded-lg p-6">
-        <h1 className="text-xl font-semibold text-stone-800 mb-6">betterbudget</h1>
+        <div className="flex items-center gap-2 mb-6">
+          <Image src="/images/logos/bb-logo.svg" alt="" width={28} height={24} priority />
+          <span className="text-xl font-heading font-light text-stone-800">betterbudget</span>
+        </div>
         <form action={action} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
             <label htmlFor="email" className="text-xs font-medium text-stone-500 uppercase tracking-wide">Email</label>

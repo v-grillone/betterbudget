@@ -41,6 +41,7 @@ Follow these rules strictly. Inline helpers inside components/pages are only all
 ## Design Principles
 - This project follows the design system in `DESIGN.md`. Always reference it before creating or editing any UI components. Do not introduce colors, fonts, or spacing values not defined there.
 - Always use shadcn/ui components before writing custom HTML elements. Install new components via `npx shadcn@latest add <name>` as needed.
+- Logo assets live in `public/images/logos/`. Use `bb-logo.svg` (icon) paired with a heading text span for headers/auth pages. The wordmark SVG is reserved and not used in UI. Never use raster PNGs in UI components.
 
 ## Directory Structure
 

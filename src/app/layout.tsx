@@ -1,5 +1,18 @@
 import type { Metadata } from "next";
+import { Raleway, Montserrat } from "next/font/google";
 import "./globals.css";
+
+const raleway = Raleway({
+  subsets: ["latin"],
+  weight: ["300", "700"],
+  variable: "--font-raleway",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   title: "betterbudget",
@@ -12,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${raleway.variable} ${montserrat.variable}`}>
       <body className="antialiased font-sans">
         {children}
       </body>
