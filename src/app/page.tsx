@@ -5,6 +5,7 @@ import BudgetChart from '@/components/BudgetChart'
 import BudgetModal from '@/components/BudgetModal'
 import LedgerTable from '@/components/LedgerTable'
 import MonthTabs from '@/components/MonthTabs'
+import OnboardingFunnel from '@/components/OnboardingFunnel'
 import SettingsModal from '@/components/SettingsModal'
 import TransactionForm from '@/components/TransactionForm'
 import WelcomeMessage from '@/components/WelcomeMessage'
@@ -23,6 +24,8 @@ export default async function Home({
   const year = Number(month.split('-')[0])
 
   const [budget, transactions, name] = await Promise.all([getBudget(), getTransactions(month), getUser()])
+
+  if (!budget) return <OnboardingFunnel name={name} />
 
   const days = daysInMonth(month)
   const dailyBudget = (budget?.weekly_amount ?? 0) / 7
