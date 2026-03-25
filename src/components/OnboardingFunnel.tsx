@@ -14,6 +14,7 @@ const EXAMPLES: Record<string, string> = {
   investing: 'Your future self — savings, stocks, retirement contributions.',
 }
 
+
 export default function OnboardingFunnel({ name }: { name: string | null }) {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1)
   const [weeklyAmount, setWeeklyAmount] = useState(0)
@@ -54,7 +55,7 @@ export default function OnboardingFunnel({ name }: { name: string | null }) {
                 </p>
                 <Button
                   onClick={() => setStep(2)}
-                  className="w-full bg-stone-700 hover:bg-stone-800"
+                  className="w-full bg-stone-700 hover:bg-stone-800 cursor-pointer"
                 >
                   Continue
                 </Button>
@@ -81,7 +82,7 @@ export default function OnboardingFunnel({ name }: { name: string | null }) {
                 </div>
                 <Button
                   onClick={() => setStep(3)}
-                  className="w-full bg-stone-700 hover:bg-stone-800"
+                  className="w-full bg-stone-700 hover:bg-stone-800 cursor-pointer"
                 >
                   Continue
                 </Button>
@@ -176,7 +177,7 @@ export default function OnboardingFunnel({ name }: { name: string | null }) {
                   <Button
                     type="submit"
                     disabled={total !== 100 || pending}
-                    className="w-full bg-stone-700 hover:bg-stone-800"
+                    className="w-full bg-stone-700 hover:bg-stone-800 cursor-pointer"
                   >
                     Set my budget
                   </Button>

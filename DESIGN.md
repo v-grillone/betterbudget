@@ -168,11 +168,11 @@ Displayed below the header and above the month tabs. Greets the user by name wit
 Shown to new users who have no budget set. Full-screen layout matching the app shell (`bg-stone-50`), with a centered `max-w-sm` white card (`bg-white border border-stone-200 rounded-lg p-6`).
 
 - **Steps:** Welcome → Concept explanation → Budget allocation → Loading
-- **Continue button:** Bottom-right aligned, displays animated `>>>` (subtle horizontal wiggle via Motion) beside the label
+- **Continue button:** Full-width primary button (`w-full bg-stone-700 hover:bg-stone-800`), label "Continue"
 - **Animated dots (loading step):** Three `motion.span` dots with staggered opacity pulses inline after the loading copy
 - **Category swatches:** Use `w-2.5 h-2.5 rounded-full mt-1` with the standard category swatch classes
 - **Progress indicator:** None — steps progress via explicit button clicks only
-- **Gate:** Rendered from `page.tsx` when `budget === null`; on successful `upsertBudget`, the page revalidates and the main dashboard replaces it
+- **Gate:** Rendered from `page.tsx` when `!budget` (falsy — covers null, undefined, or no row returned); on successful `upsertBudget`, the server action calls `revalidatePath('/')` which causes Next.js to re-run the page and replace the funnel with the main dashboard
 
 ### Empty State
 
