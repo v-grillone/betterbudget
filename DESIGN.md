@@ -185,6 +185,17 @@ Displayed below the header and above the month tabs. Greets the user by name wit
 - **Copy (no name):** `"Good [period]. Let's add to your budget."`
 - **Spacing:** `mb-6` below the element
 
+### Onboarding Funnel
+
+Shown to new users who have no budget set. Full-screen layout matching the app shell (`bg-stone-50`), with a centered `max-w-sm` white card (`bg-white border border-stone-200 rounded-lg p-6`).
+
+- **Steps:** Welcome → Concept explanation → Budget allocation → Loading
+- **Continue button:** Full-width primary button (`w-full bg-stone-700 hover:bg-stone-800`), label "Continue"
+- **Animated dots (loading step):** Three `motion.span` dots with staggered opacity pulses inline after the loading copy
+- **Category swatches:** Use `w-2.5 h-2.5 rounded-full mt-1` with the standard category swatch classes
+- **Progress indicator:** None — steps progress via explicit button clicks only
+- **Gate:** Rendered from `page.tsx` when `!budget` (falsy — covers null, undefined, or no row returned); on successful `upsertBudget`, the server action calls `revalidatePath('/')` which causes Next.js to re-run the page and replace the funnel with the main dashboard
+
 ### Empty State
 
 Shown when a month has no transactions yet.
@@ -234,3 +245,4 @@ Shown when a month has no transactions yet.
 - **Numbers:** Always show currency symbol. Use two decimal places. Right-align amounts in tables.
 - **Dates:** Display as `Mon, Mar 7` in the ledger. Use `YYYY-MM-DD` internally.
 - **Empty/error states:** Calm, non-alarming. No exclamation points.
+- **Exception — Onboarding:** Onboarding screens may use a warmer, friendlier tone (e.g. greeting by name, brief encouraging copy). Emojis are permitted sparingly on the welcome step only.
