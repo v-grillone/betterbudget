@@ -3,10 +3,22 @@
 import { signUp } from '@/app/actions/auth'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 
 export default function SignUpPage() {
   const [error, action, pending] = useActionState(signUp, undefined)
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [touched, setTouched] = useState(false)
+
+  const checks = {
+    length: password.length >= 8,
+    number: /\d/.test(password),
+    special: /[^a-zA-Z0-9]/.test(password),
+  }
+  const passwordValid = checks.length && checks.number && checks.special
+  const passwordsMatch = password === confirmPassword
+  const canSubmit = passwordValid && (confirmPassword === '' || passwordsMatch)
 
   return (
     <div className="min-h-screen bg-stone-50 flex items-center justify-center px-4">
@@ -43,15 +55,46 @@ export default function SignUpPage() {
               name="password"
               type="password"
               required
-              minLength={8}
+              value={password}
+              onChange={e => { setPassword(e.target.value); setTouched(true) }}
               className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
             />
+            {touched && (
+              <ul className="flex flex-col gap-0.5 mt-1">
+                <li className={`text-xs ${checks.length ? 'text-emerald-600' : 'text-red-500'}`}>
+                  {checks.length ? '✓' : '✗'} At least 8 characters
+                </li>
+                <li className={`text-xs ${checks.number ? 'text-emerald-600' : 'text-red-500'}`}>
+                  {checks.number ? '✓' : '✗'} Contains a number
+                </li>
+                <li className={`text-xs ${checks.special ? 'text-emerald-600' : 'text-red-500'}`}>
+                  {checks.special ? '✓' : '✗'} Contains a special character
+                </li>
+              </ul>
+            )}
+          </div>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="confirmPassword" className="text-xs font-medium text-stone-500 uppercase tracking-wide">Confirm password</label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              required
+              value={confirmPassword}
+              onChange={e => setConfirmPassword(e.target.value)}
+              className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
+            />
+            {confirmPassword && (
+              <p className={`text-xs mt-0.5 ${passwordsMatch ? 'text-emerald-600' : 'text-red-500'}`}>
+                {passwordsMatch ? '✓ Passwords match' : '✗ Passwords do not match'}
+              </p>
+            )}
           </div>
           {error && <p role="alert" className="text-xs text-red-600">{error}</p>}
           <button
             type="submit"
-            disabled={pending}
-            className={`px-4 py-2 text-sm font-medium text-white bg-stone-700 rounded hover:bg-stone-800 transition-colors duration-150 ${pending ? 'opacity-50 pointer-events-none' : ''}`}
+            disabled={pending || !canSubmit}
+            className={`px-4 py-2 text-sm font-medium text-white bg-stone-700 rounded hover:bg-stone-800 transition-colors duration-150 cursor-pointer ${(pending || !canSubmit) ? 'opacity-50 pointer-events-none' : ''}`}
           >
             {pending ? 'Creating account...' : 'Create account'}
           </button>

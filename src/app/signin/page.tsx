@@ -40,7 +40,7 @@ export default function SignInPage() {
           <button
             type="submit"
             disabled={pending}
-            className={`px-4 py-2 text-sm font-medium text-white bg-stone-700 rounded hover:bg-stone-800 transition-colors duration-150 ${pending ? 'opacity-50 pointer-events-none' : ''}`}
+            className={`px-4 py-2 text-sm font-medium text-white bg-stone-700 rounded hover:bg-stone-800 transition-colors duration-150 cursor-pointer ${pending ? 'opacity-50 pointer-events-none' : ''}`}
           >
             {pending ? 'Signing in...' : 'Sign in'}
           </button>

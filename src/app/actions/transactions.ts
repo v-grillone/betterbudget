@@ -2,6 +2,16 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { CATEGORIES } from '@/lib/constants'
+
+const VALID_CATEGORIES = CATEGORIES.map(c => c.key)
+
+function validateTransactionFields(category: string, description: string, amount: number, date: string): string | undefined {
+  if (!VALID_CATEGORIES.includes(category)) return 'Invalid category.'
+  if (!description.trim() || description.length > 255) return 'Description must be 1–255 characters.'
+  if (!isFinite(amount) || amount <= 0) return 'Amount must be a positive number.'
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return 'Invalid date format.'
+}
 
 export async function getTransactions(month?: string) {
   const supabase = await createClient()
@@ -41,6 +51,9 @@ export async function addTransaction(_: string | undefined, formData: FormData):
   const amount = parseFloat(formData.get('amount') as string)
   const date = formData.get('date') as string
 
+  const validationError = validateTransactionFields(category, description, amount, date)
+  if (validationError) return validationError
+
   const { error } = await supabase
     .from('transactions')
     .insert({ user_id: user.id, category, description, amount, date })
@@ -60,6 +73,9 @@ export async function updateTransaction(_: string | undefined, formData: FormDat
   const description = formData.get('description') as string
   const amount = parseFloat(formData.get('amount') as string)
   const date = formData.get('date') as string
+
+  const validationError = validateTransactionFields(category, description, amount, date)
+  if (validationError) return validationError
 
   const { error } = await supabase
     .from('transactions')
