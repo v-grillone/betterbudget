@@ -27,7 +27,11 @@ export async function upsertBudget(_: string | undefined, formData: FormData): P
   const wants_pct = parseFloat(formData.get('wants_pct') as string)
   const investing_pct = parseFloat(formData.get('investing_pct') as string)
 
-  if (needs_pct + wants_pct + investing_pct !== 100) {
+  if (!isFinite(weekly_amount) || weekly_amount <= 0) return 'Weekly amount must be a positive number.'
+  for (const [label, pct] of [['needs', needs_pct], ['wants', wants_pct], ['investing', investing_pct]] as [string, number][]) {
+    if (!isFinite(pct) || pct < 0 || pct > 100) return `Invalid ${label} percentage.`
+  }
+  if (Math.round(needs_pct + wants_pct + investing_pct) !== 100) {
     return 'Percentages must sum to 100'
   }
 

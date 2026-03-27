@@ -13,7 +13,11 @@ export async function signUp(_: string | undefined, formData: FormData): Promise
   const password = String(formData.get('password') ?? '').trim()
 
   if (!name || !email || !password) return 'All fields are required.'
+  if (name.length > 100) return 'Name must be 100 characters or fewer.'
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Invalid email address.'
   if (password.length < 8) return 'Password must be at least 8 characters.'
+  if (!/\d/.test(password)) return 'Password must contain at least one number.'
+  if (!/[^a-zA-Z0-9]/.test(password)) return 'Password must contain at least one special character.'
 
   const { error } = await supabase.auth.signUp({
     email,
@@ -59,6 +63,7 @@ export async function changeName(_: string | undefined, formData: FormData): Pro
 
   const name = String(formData.get('name') ?? '').trim()
   if (!name) return 'Name is required.'
+  if (name.length > 100) return 'Name must be 100 characters or fewer.'
 
   const { error } = await supabase.auth.updateUser({ data: { name } })
   if (error) return error.message
@@ -71,6 +76,8 @@ export async function changePassword(_: string | undefined, formData: FormData):
 
   const password = String(formData.get('password') ?? '').trim()
   if (!password || password.length < 8) return 'Password must be at least 8 characters.'
+  if (!/\d/.test(password)) return 'Password must contain at least one number.'
+  if (!/[^a-zA-Z0-9]/.test(password)) return 'Password must contain at least one special character.'
 
   const { error } = await supabase.auth.updateUser({ password })
   if (error) return error.message
