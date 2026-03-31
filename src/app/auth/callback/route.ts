@@ -8,7 +8,11 @@ export async function GET(request: Request) {
   if (code) {
     const supabase = await createClient()
     const { error } = await supabase.auth.exchangeCodeForSession(code)
-    if (!error) return NextResponse.redirect(`${origin}/`)
+    if (!error) {
+      const next = searchParams.get('next') ?? '/'
+      const safeNext = next.startsWith('/') && !next.startsWith('//') ? next : '/'
+      return NextResponse.redirect(`${origin}${safeNext}`)
+    }
   }
 
   return NextResponse.redirect(`${origin}/signin?error=Could not authenticate`)
