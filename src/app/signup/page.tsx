@@ -99,10 +99,13 @@ export default function SignUpPage() {
             {pending ? 'Creating account...' : 'Create account'}
           </button>
         </form>
-        <p className="mt-4 text-xs text-stone-500">
-          Already have an account?{' '}
-          <Link href="/signin" className="text-stone-700 hover:text-stone-800">Sign in</Link>
-        </p>
+        <div className="mt-4 border-t border-stone-200" />
+        <Link
+          href="/signin"
+          className="mt-4 flex items-center justify-center px-4 py-2 text-sm font-medium text-stone-700 bg-white border border-stone-700 rounded hover:bg-stone-50 transition-colors duration-150"
+        >
+          I already have an account
+        </Link>
       </div>
     </div>
   )
