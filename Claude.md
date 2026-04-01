@@ -57,6 +57,10 @@ betterbudget/
 │   │   ├── auth/
 │   │   │   └── callback/
 │   │   │       └── route.ts  ← Supabase auth callback
+│   │   ├── forgot-password/
+│   │   │   └── page.tsx
+│   │   ├── reset-password/
+│   │   │   └── page.tsx
 │   │   ├── signin/
 │   │   │   └── page.tsx
 │   │   ├── signup/

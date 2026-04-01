@@ -46,6 +46,31 @@ export async function signIn(_: string | undefined, formData: FormData): Promise
   redirect('/')
 }
 
+type ResetPasswordState = { error?: string; success?: boolean }
+
+export async function requestPasswordReset(
+  _: ResetPasswordState | undefined,
+  formData: FormData
+): Promise<ResetPasswordState> {
+  const supabase = await createClient()
+
+  const email = String(formData.get('email') ?? '').trim().toLowerCase()
+
+  if (!email) return { error: 'Email is required.' }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { error: 'Invalid email address.' }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+  if (!siteUrl) return { error: 'Site URL is not configured.' }
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${siteUrl}/auth/callback?next=/reset-password`,
+  })
+
+  if (error) return { error: error.message }
+
+  return { success: true }
+}
+
 export async function signOut() {
   const supabase = await createClient()
   await supabase.auth.signOut()
