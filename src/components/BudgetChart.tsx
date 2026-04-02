@@ -43,9 +43,9 @@ export default function BudgetChart({ transactions, budget, dailyBudget, monthly
 
   return (
     <div className="py-6 border-b border-stone-200">
-      <div className="flex gap-6 items-start">
+      <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
         {/* Doughnut */}
-        <div className="relative w-36 h-36 shrink-0">
+        <div className="relative w-36 h-36 shrink-0 mx-auto sm:mx-0">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
