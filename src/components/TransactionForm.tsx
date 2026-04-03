@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { defaultDate } from '@/lib/dates'
-import { Plus } from 'lucide-react'
 import { useActionState, useState } from 'react'
 
 export default function TransactionForm({ month }: { month: string }) {
@@ -13,63 +12,76 @@ export default function TransactionForm({ month }: { month: string }) {
   const [category, setCategory] = useState('needs')
 
   return (
-    <>
-    <h2 className="px-3 pt-4 pb-0 text-lg font-heading font-bold text-stone-800">Add Transaction</h2>
-    <form action={action} aria-busy={pending} className="">
-      <fieldset disabled={pending} className={`border-0 p-0 m-0 min-w-0 bg-white flex items-center gap-0 ${pending ? 'opacity-50' : ''}`}>
-        <Input
-          name="date"
-          type="date"
-          defaultValue={defaultDate(month)}
-          required
-          aria-label="Date"
-          className="w-36 border-none bg-transparent shadow-none focus-visible:ring-0 text-stone-800"
-        />
-        <Input
-          name="description"
-          type="text"
-          placeholder="Description"
-          required
-          aria-label="Description"
-          className="flex-1 border-none bg-transparent shadow-none focus-visible:ring-0 placeholder:text-stone-400 text-stone-800"
-        />
-        <input type="hidden" name="category" value={category} />
-        <Select value={category} onValueChange={setCategory}>
-          <SelectTrigger aria-label="Category" className="w-28 border-none bg-transparent shadow-none focus:ring-0 text-stone-500 cursor-pointer">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="needs">Needs</SelectItem>
-            <SelectItem value="wants">Wants</SelectItem>
-            <SelectItem value="investing">Investing</SelectItem>
-          </SelectContent>
-        </Select>
-        <Input
-          name="amount"
-          type="number"
-          step="0.01"
-          min="0.01"
-          placeholder="0.00"
-          required
-          aria-label="Amount"
-          className="w-24 border-none bg-transparent shadow-none focus-visible:ring-0 placeholder:text-stone-400 text-stone-800 text-right"
-        />
-        <Button
-          type="submit"
-          variant="ghost"
-          size="icon"
-          aria-label="Add transaction"
-          className="text-stone-700 hover:text-stone-800 hover:bg-stone-300 cursor-pointer"
-        >
-          <Plus size={16} />
-        </Button>
-      </fieldset>
-      {error && (
-        <p className="px-3 py-1.5 text-xs text-red-600 border-t border-stone-200 bg-white">
-          {error}
-        </p>
-      )}
-    </form>
-    </>
+    <div className={`px-3 py-4 flex flex-col gap-4 ${pending ? 'opacity-50 pointer-events-none' : ''}`}>
+      <h2 className="text-lg font-heading font-bold text-stone-800">Transactions</h2>
+      <form action={action} aria-busy={pending}>
+        <fieldset disabled={pending} className="contents">
+          <div className="flex flex-col gap-4">
+            {/* Row 1: Date + Description */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-medium text-stone-500 uppercase tracking-wide">Date</label>
+                <Input
+                  name="date"
+                  type="date"
+                  defaultValue={defaultDate(month)}
+                  required
+                  className="w-full text-stone-800"
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-medium text-stone-500 uppercase tracking-wide">Description</label>
+                <Input
+                  name="description"
+                  type="text"
+                  placeholder="e.g. Grocery run"
+                  required
+                  className="w-full text-stone-800"
+                />
+              </div>
+            </div>
+
+            {/* Row 2: Category + Amount */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-medium text-stone-500 uppercase tracking-wide">Category</label>
+                <input type="hidden" name="category" value={category} />
+                <Select value={category} onValueChange={setCategory}>
+                  <SelectTrigger className="w-full text-stone-800 cursor-pointer">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="needs">Needs</SelectItem>
+                    <SelectItem value="wants">Wants</SelectItem>
+                    <SelectItem value="investing">Investing</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-medium text-stone-500 uppercase tracking-wide">Amount</label>
+                <Input
+                  name="amount"
+                  type="number"
+                  step="0.01"
+                  min="0.01"
+                  placeholder="0.00"
+                  required
+                  className="w-full text-stone-800"
+                />
+              </div>
+            </div>
+
+            {/* Submit */}
+            {error && <p className="text-xs text-red-600">{error}</p>}
+            <Button
+              type="submit"
+              className="w-full bg-stone-700 text-white hover:bg-stone-800 cursor-pointer"
+            >
+              Add Transaction
+            </Button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
   )
 }

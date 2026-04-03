@@ -110,22 +110,24 @@ A compact native `<select>` placed above the month tab strip, left-aligned. Allo
 The month tab strip sits below the year selector. Tabs span the full ledger width and feel like file folder tabs lifting the page up.
 
 - **Container:** `flex border-b border-stone-200 bg-stone-50`
-- **Inactive tab:** `flex-1 px-1 py-2 text-sm text-center text-stone-500 bg-stone-100 border border-b-0 border-stone-200 rounded-t cursor-pointer hover:bg-stone-300 hover:text-stone-700 transition-colors duration-150 not-first:border-l-0`
-- **Active tab:** `flex-1 px-1 py-2 text-sm font-medium text-center text-stone-800 bg-white border border-b-0 border-stone-200 rounded-t -mb-px not-first:border-l-0`
+- **Inactive tab:** `flex-1 px-1 py-2 text-xs sm:text-sm text-center text-stone-500 bg-stone-100 border border-b-0 border-stone-200 rounded-t cursor-pointer hover:bg-stone-300 hover:text-stone-700 transition-colors duration-150 not-first:border-l-0`
+- **Active tab:** `flex-1 px-1 py-2 text-xs sm:text-sm font-medium text-center text-stone-800 bg-white border border-b-0 border-stone-200 rounded-t -mb-px not-first:border-l-0`
 - Tabs divide the full container width equally (`flex-1`); no gap, no overflow scroll
+- **Responsive labels:** Below `sm`, inactive tabs show only the first letter (J, F, M…); the active tab shows the 3-char abbreviation (e.g. "Apr"). At `sm`+, all tabs show the 3-char abbreviation at `text-sm`.
 - The active tab visually "connects" to the content surface below (no bottom border, `-mb-px`)
 
 ### Ledger Table
 
 The core UI — a simple, scannable table of daily transactions.
 
-- **Table wrapper:** `w-full border border-stone-200 rounded-lg overflow-hidden`
+- **Table wrapper:** `w-full border border-stone-200 rounded-lg overflow-hidden` — contains an inner `overflow-x-auto` div as a safety net for long descriptions
 - **Header row:** `bg-stone-100 text-xs font-medium text-stone-500 uppercase tracking-wide`
 - **Header cell:** `px-3 py-2 text-left`
 - **Data row:** `border-t border-stone-200 hover:bg-stone-300 transition-colors cursor-pointer`
 - **Data cell:** `px-3 py-3 text-sm`
 - **Alternate rows:** Do not use zebra striping — use hover state only
-- Columns (suggested order): Date · Description · Category · Amount 
+- Columns (suggested order): Date · Description · Category · Amount
+- **Responsive:** The Category column is `hidden sm:table-cell` — hidden on mobile to eliminate horizontal scroll; visible at `sm`+. Category is still accessible via the edit modal on tap.
 
 ### Ledger Pie Chart
 
@@ -134,7 +136,7 @@ Displayed at the top of each monthly ledger, above the transaction table. Shows 
 - **Chart type:** Doughnut (not pie) — use a clean center hole to display the net remaining balance
 - **Chart colors:** Use the category palette exactly — `bg-indigo-400` for Needs, `bg-red-400` for Wants, `bg-emerald-400` for Investing
 - **Chart library:** Use `recharts` (`PieChart` + `Pie` with `innerRadius`) — no external charting dependencies beyond what's already in the stack
-- **Layout:** Chart and category summary sit side by side (`flex gap-6 items-start`), chart on the left, summary on the right
+- **Layout:** Chart and category summary sit side by side on `sm`+ (`flex flex-col sm:flex-row gap-4 sm:gap-6 items-start`), chart on the left, summary on the right. Below `sm`, chart is centered above the summary.
 - **Monthly Budget formula:** Displayed as the first element in the right column — `Monthly Budget: $X.XX/day × Y days = $Z.XX/mo` — `text-xs text-stone-400`
 - **Category summary rows** (one per category, below the formula line):
   - Label with color swatch dot (`w-2.5 h-2.5 rounded-full` in category color)
@@ -164,15 +166,18 @@ Opened when the user clicks a row in the Ledger Table. Allows editing or deletin
 - Both buttons show pending copy ("Saving…" / "Deleting…") and are disabled while either action is in-flight
 - Error message (if any): `text-xs text-red-600`, displayed above the footer
 
-### Transaction Input Row
+### Transaction Form
 
-A lightweight inline form between the budget summary and the transaction table (not a modal).
+A labeled form section between the budget summary and the transaction table. Uses the same input style as the Transaction Modal.
 
-- **Row:** `border-t border-stone-200 bg-white`
-- **Input field:** `w-full px-3 py-2 text-sm bg-transparent border-none outline-none placeholder:text-stone-400 focus:ring-0`
-- Inputs are borderless inside the row — the row container provides the visual boundary
-- Submit with Enter key; show a small `+` icon button as a visual affordance
-- **Add button:** `text-stone-700 hover:text-stone-800 p-1 rounded hover:bg-stone-300`
+- **Section heading:** `text-lg font-heading font-bold text-stone-800` — "Transactions"
+- **Wrapper:** `px-3 py-4 flex flex-col gap-4`
+- **Field layout:** Two rows of a `grid grid-cols-1 sm:grid-cols-2 gap-4` — Row 1: Date + Description; Row 2: Category + Amount
+- **Field wrapper:** `flex flex-col gap-1`
+- **Label:** `text-xs font-medium text-stone-500 uppercase tracking-wide`
+- **Input/Select:** Standard form input style (bordered) — no `border-none` or `shadow-none` overrides
+- **Submit button:** Full-width primary button (`w-full bg-stone-700 text-white hover:bg-stone-800`), label "Add Transaction", always below the field grid on both mobile and desktop
+- **Pending state:** `opacity-50 pointer-events-none` on the wrapper via `fieldset disabled`
 
 ### Welcome Message
 
