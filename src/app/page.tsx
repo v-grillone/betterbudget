@@ -33,7 +33,7 @@ export default async function Home({
   const monthlyBudget = dailyBudget * days
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="flex-1 bg-stone-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-8 py-6">
 
         {/* Header */}

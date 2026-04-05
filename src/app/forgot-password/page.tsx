@@ -9,7 +9,7 @@ export default function ForgotPasswordPage() {
   const [state, action, pending] = useActionState(requestPasswordReset, undefined)
 
   return (
-    <div className="min-h-screen bg-stone-50 flex items-center justify-center px-4">
+    <div className="flex-1 bg-stone-50 flex items-center justify-center px-4">
       <div className="w-full max-w-sm bg-white border border-stone-200 rounded-lg p-6">
         <div className="flex items-center gap-2 mb-6">
           <Image src="/images/logos/bb-logo.svg" alt="" width={28} height={24} priority />

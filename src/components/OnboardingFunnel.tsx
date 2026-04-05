@@ -30,7 +30,7 @@ export default function OnboardingFunnel({ name }: { name: string | null }) {
   const activeStep = pending ? 4 : step
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="flex-1 flex flex-col bg-stone-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-8 py-6">
 
         <header className="flex items-center mb-6">
@@ -40,7 +40,7 @@ export default function OnboardingFunnel({ name }: { name: string | null }) {
           </div>
         </header>
 
-        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-88px)]">
+        <div className="flex flex-col items-center justify-center flex-1">
           <div className="w-full max-w-sm bg-white border border-stone-200 rounded-lg p-6">
 
             {/* Step 1: Welcome */}
