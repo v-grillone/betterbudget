@@ -175,6 +175,7 @@ const canSubmit = {existingCondition} && agreed
 <div className="flex items-start gap-2">
   <input
     id="agree"
+    name="agreed"
     type="checkbox"
     checked={agreed}
     onChange={e => setAgreed(e.target.checked)}
@@ -195,7 +196,34 @@ const canSubmit = {existingCondition} && agreed
 
 Links open in a **new tab** so the user doesn't lose their partially filled signup form.
 
-No server action changes needed — client-side enforcement via `canSubmit` is sufficient.
+**The `name="agreed"` attribute is required.** Without it the checkbox value is never included in `FormData` and the server receives nothing. Client-side `canSubmit` is a UX convenience only — it can be bypassed by submitting the form directly.
+
+**Also add server-side validation** in the signup server action, after other field checks and before calling the auth provider:
+
+```ts
+if (!formData.get('agreed')) return 'You must agree to the Terms of Service and Privacy Policy.'
+```
+
+---
+
+## Step 8 — Allow public access to legal pages (if auth-gated middleware exists)
+
+If the project uses middleware to redirect unauthenticated users to a login page, `/policy` and `/terms` must be explicitly exempted — otherwise users who click those links from the signup form will be redirected before they can read them.
+
+**Find the middleware file** (e.g. `middleware.ts`) and locate the route check that determines which paths are publicly accessible (often called `isAuthRoute` or a similar pattern).
+
+**Add `/terms` and `/policy` to the public routes list:**
+
+```diff
+  const isAuthRoute = pathname.startsWith('/signin') ||
+    pathname.startsWith('/signup') ||
+    pathname.startsWith('/forgot-password') ||
+    pathname.startsWith('/auth/callback') ||
++   pathname.startsWith('/terms') ||
++   pathname.startsWith('/policy')
+```
+
+The exact shape will differ by framework and auth library — the key is that unauthenticated requests to `/terms` and `/policy` must pass through without redirect.
 
 ---
 
@@ -209,4 +237,6 @@ No server action changes needed — client-side enforcement via `canSubmit` is s
 - [ ] `/terms` renders with correct content and footer below it
 - [ ] On signup: submit blocked until checkbox is checked
 - [ ] Checkbox links open in a new tab; back-button returns to signup
+- [ ] Submitting the form without the checkbox checked (e.g. via curl/devtools) returns the server-side error
+- [ ] `/policy` and `/terms` load without redirect when logged out
 - [ ] No TypeScript errors (`npm run build` or `tsc --noEmit`)

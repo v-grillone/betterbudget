@@ -95,6 +95,7 @@ export default function SignUpPage() {
           <div className="flex items-start gap-2">
             <input
               id="agree"
+              name="agreed"
               type="checkbox"
               checked={agreed}
               onChange={e => setAgreed(e.target.checked)}
