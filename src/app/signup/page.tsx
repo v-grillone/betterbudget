@@ -10,6 +10,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [touched, setTouched] = useState(false)
+  const [agreed, setAgreed] = useState(false)
 
   const checks = {
     length: password.length >= 8,
@@ -18,10 +19,10 @@ export default function SignUpPage() {
   }
   const passwordValid = checks.length && checks.number && checks.special
   const passwordsMatch = password === confirmPassword
-  const canSubmit = passwordValid && (confirmPassword === '' || passwordsMatch)
+  const canSubmit = passwordValid && (confirmPassword === '' || passwordsMatch) && agreed
 
   return (
-    <div className="min-h-screen bg-stone-50 flex items-center justify-center px-4">
+    <div className="flex-1 bg-stone-50 flex items-center justify-center px-4">
       <div className="w-full max-w-sm bg-white border border-stone-200 rounded-lg p-6">
         <div className="flex items-center gap-2 mb-6">
           <Image src="/images/logos/bb-logo.svg" alt="" width={28} height={24} priority />
@@ -91,6 +92,22 @@ export default function SignUpPage() {
             )}
           </div>
           {error && <p role="alert" className="text-xs text-red-600">{error}</p>}
+          <div className="flex items-start gap-2">
+            <input
+              id="agree"
+              name="agreed"
+              type="checkbox"
+              checked={agreed}
+              onChange={e => setAgreed(e.target.checked)}
+              className="mt-0.5 accent-stone-700 cursor-pointer"
+            />
+            <label htmlFor="agree" className="text-xs text-stone-500 leading-relaxed cursor-pointer">
+              I agree to the{' '}
+              <Link href="/terms" target="_blank" rel="noopener noreferrer" className="text-stone-700 hover:underline">Terms of Service</Link>
+              {' '}and{' '}
+              <Link href="/policy" target="_blank" rel="noopener noreferrer" className="text-stone-700 hover:underline">Privacy Policy</Link>
+            </label>
+          </div>
           <button
             type="submit"
             disabled={pending || !canSubmit}

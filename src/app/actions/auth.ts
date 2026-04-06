@@ -18,6 +18,7 @@ export async function signUp(_: string | undefined, formData: FormData): Promise
   if (password.length < 8) return 'Password must be at least 8 characters.'
   if (!/\d/.test(password)) return 'Password must contain at least one number.'
   if (!/[^a-zA-Z0-9]/.test(password)) return 'Password must contain at least one special character.'
+  if (!formData.get('agreed')) return 'You must agree to the Terms of Service and Privacy Policy.'
 
   const { error } = await supabase.auth.signUp({
     email,
