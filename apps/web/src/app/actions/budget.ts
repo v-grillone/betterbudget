@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { validateBudget } from '@betterbudget/shared'
 
 export async function getBudget() {
   const supabase = await createClient()
@@ -27,13 +28,8 @@ export async function upsertBudget(_: string | undefined, formData: FormData): P
   const wants_pct = parseFloat(formData.get('wants_pct') as string)
   const investing_pct = parseFloat(formData.get('investing_pct') as string)
 
-  if (!isFinite(weekly_amount) || weekly_amount <= 0) return 'Weekly amount must be a positive number.'
-  for (const [label, pct] of [['needs', needs_pct], ['wants', wants_pct], ['investing', investing_pct]] as [string, number][]) {
-    if (!isFinite(pct) || pct < 0 || pct > 100) return `Invalid ${label} percentage.`
-  }
-  if (Math.round(needs_pct + wants_pct + investing_pct) !== 100) {
-    return 'Percentages must sum to 100'
-  }
+  const validationError = validateBudget(weekly_amount, needs_pct, wants_pct, investing_pct)
+  if (validationError) return validationError
 
   const { error } = await supabase
     .from('budgets')

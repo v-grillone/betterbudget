@@ -1,5 +1,7 @@
 # Design System — betterbudget
 
+> **Scope:** This file is the source of truth for the betterbudget design system. Component patterns and implementation details are web-specific (Next.js + Tailwind v4 + shadcn/ui). The **Color Palette** and **Typography** sections apply to both web and mobile — the mobile app mirrors these values via `apps/mobile/tailwind.config.js`.
+
 ## Overview
 
 A minimalist budgeting app with a file-folder navigation model. Users drill down from year → month. Each ledger contains the days of the month, allowing users to add transactions for each day. The aesthetic is calm, warm, and distraction-free — the UI should feel like a well-organized notebook, not a dashboard. At the top of each monthly ledger, there should be a doughnut pie chart showing the percentage breakdown of the month’s needs, wants, and investing, along with a running total of each category’s spending and how much is left over from the monthly total budget.
