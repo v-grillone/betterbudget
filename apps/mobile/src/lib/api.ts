@@ -105,10 +105,7 @@ export async function changePassword(password: string): Promise<string | undefin
 export async function deleteAccount(): Promise<string | undefined> {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return 'Not authenticated'
-  await supabase.from('transactions').delete().eq('user_id', user.id)
-  await supabase.from('budgets').delete().eq('user_id', user.id)
-  await supabase.from('feedback').delete().eq('user_id', user.id)
-  await supabase.from('users').delete().eq('user_id', user.id)
-  // Auth user deletion requires a server-side call (Supabase Edge Function)
+  const { error } = await supabase.functions.invoke('delete-account')
+  if (error) return error.message
   await supabase.auth.signOut()
 }

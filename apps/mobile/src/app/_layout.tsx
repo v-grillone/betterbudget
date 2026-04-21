@@ -10,7 +10,9 @@ export default function RootLayout() {
   const segments = useSegments()
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => setSession(session))
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => setSession(session))
+      .catch(() => setSession(null))
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
     })
@@ -25,6 +27,8 @@ export default function RootLayout() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (session && inAuth) router.replace('/(app)' as any)
   }, [session, segments])
+
+  if (session === undefined) return null
 
   return <Slot />
 }
