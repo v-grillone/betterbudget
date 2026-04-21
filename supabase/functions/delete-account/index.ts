@@ -10,6 +10,12 @@ Deno.serve(async (req) => {
     return new Response('ok', { headers: corsHeaders })
   }
 
+  if (req.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    })
+  }
+
   try {
     const authHeader = req.headers.get('Authorization')
     if (!authHeader) {
@@ -38,18 +44,15 @@ Deno.serve(async (req) => {
       { auth: { autoRefreshToken: false, persistSession: false } }
     )
 
-    // Delete public rows (FK order: transactions, budgets, feedback, users)
-    const tables = ['transactions', 'budgets', 'feedback', 'users'] as const
-    for (const table of tables) {
-      const { error } = await admin.from(table).delete().eq('user_id', user.id)
-      if (error) {
-        return new Response(JSON.stringify({ error: `Failed to delete ${table}: ${error.message}` }), {
-          status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        })
-      }
+    // Delete feedback first — no ON DELETE CASCADE on auth.users FK
+    const { error: feedbackError } = await admin.from('feedback').delete().eq('user_id', user.id)
+    if (feedbackError) {
+      return new Response(JSON.stringify({ error: `Failed to delete feedback: ${feedbackError.message}` }), {
+        status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
     }
 
-    // Delete auth user (requires service role)
+    // Delete auth user — cascades to transactions, budgets, public.users
     const { error: deleteError } = await admin.auth.admin.deleteUser(user.id)
     if (deleteError) {
       return new Response(JSON.stringify({ error: deleteError.message }), {
