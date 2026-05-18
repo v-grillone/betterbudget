@@ -64,7 +64,7 @@ export async function requestPasswordReset(
   if (!siteUrl) return { error: 'Site URL is not configured.' }
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${siteUrl}/auth/callback?next=/reset-password`,
+    redirectTo: `${siteUrl}/reset-password`,
   })
 
   if (error) return { error: error.message }

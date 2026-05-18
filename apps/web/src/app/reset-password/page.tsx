@@ -1,6 +1,7 @@
 'use client'
 
 import { changePassword } from '@/app/actions/auth'
+import { createClient } from '@/lib/supabase/client'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -10,6 +11,8 @@ export default function ResetPasswordPage() {
   const [error, action, pending] = useActionState(changePassword, undefined)
   const [password, setPassword] = useState('')
   const [touched, setTouched] = useState(false)
+  const [sessionReady, setSessionReady] = useState(false)
+  const [sessionError, setSessionError] = useState(false)
   const submitted = useRef(false)
   const router = useRouter()
 
@@ -19,6 +22,38 @@ export default function ResetPasswordPage() {
     special: /[^a-zA-Z0-9]/.test(password),
   }
   const passwordValid = checks.length && checks.number && checks.special
+
+  useEffect(() => {
+    const supabase = createClient()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY' || (session && event === 'SIGNED_IN')) {
+        setSessionReady(true)
+      }
+    })
+
+    async function init() {
+      const code = new URLSearchParams(window.location.search).get('code')
+      if (code) {
+        const { error } = await supabase.auth.exchangeCodeForSession(code)
+        if (error) setSessionError(true)
+        else setSessionReady(true)
+        return
+      }
+
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
+        setSessionReady(true)
+      } else {
+        // Give onAuthStateChange a moment to fire for hash-fragment (Implicit) flow
+        setTimeout(() => setSessionError(true), 2000)
+      }
+    }
+
+    init()
+
+    return () => subscription.unsubscribe()
+  }, [])
 
   useEffect(() => {
     if (submitted.current && !pending && error === undefined) {
@@ -33,48 +68,67 @@ export default function ResetPasswordPage() {
           <Image src="/images/logos/bb-logo.svg" alt="" width={28} height={24} priority />
           <span className="text-xl font-heading font-light text-stone-800">betterbudget</span>
         </div>
-        <form
-          action={action}
-          onSubmit={() => { submitted.current = true }}
-          className="flex flex-col gap-4"
-        >
-          <div className="flex flex-col gap-1">
-            <label htmlFor="password" className="text-xs font-medium text-stone-500 uppercase tracking-wide">New password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              required
-              value={password}
-              onChange={e => { setPassword(e.target.value); setTouched(true) }}
-              className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
-            />
-            {touched && (
-              <ul className="flex flex-col gap-0.5 mt-1">
-                <li className={`text-xs ${checks.length ? 'text-emerald-600' : 'text-red-500'}`}>
-                  {checks.length ? '✓' : '✗'} At least 8 characters
-                </li>
-                <li className={`text-xs ${checks.number ? 'text-emerald-600' : 'text-red-500'}`}>
-                  {checks.number ? '✓' : '✗'} Contains a number
-                </li>
-                <li className={`text-xs ${checks.special ? 'text-emerald-600' : 'text-red-500'}`}>
-                  {checks.special ? '✓' : '✗'} Contains a special character
-                </li>
-              </ul>
-            )}
+
+        {!sessionReady && !sessionError && (
+          <p className="text-sm text-stone-500">Verifying reset link…</p>
+        )}
+
+        {sessionError && !sessionReady && (
+          <div className="flex flex-col gap-4">
+            <p className="text-sm text-red-600">Invalid or expired reset link.</p>
+            <Link href="/forgot-password" className="text-sm text-stone-500 hover:text-stone-700">
+              ← Request a new link
+            </Link>
           </div>
-          {error && <p role="alert" className="text-xs text-red-600">{error}</p>}
-          <button
-            type="submit"
-            disabled={pending || !passwordValid}
-            className={`px-4 py-2 text-sm font-medium text-white bg-stone-700 rounded hover:bg-stone-800 transition-colors duration-150 cursor-pointer ${(pending || !passwordValid) ? 'opacity-50 pointer-events-none' : ''}`}
+        )}
+
+        {sessionReady && (
+          <form
+            action={action}
+            onSubmit={() => { submitted.current = true }}
+            className="flex flex-col gap-4"
           >
-            {pending ? 'Saving...' : 'Set new password'}
-          </button>
-        </form>
-        <p className="mt-4 text-xs text-stone-500">
-          <Link href="/signin" className="text-stone-500 hover:text-stone-700">← Back to sign in</Link>
-        </p>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="password" className="text-xs font-medium text-stone-500 uppercase tracking-wide">New password</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                value={password}
+                onChange={e => { setPassword(e.target.value); setTouched(true) }}
+                className="px-3 py-2 text-sm border border-stone-200 rounded bg-white focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
+              />
+              {touched && (
+                <ul className="flex flex-col gap-0.5 mt-1">
+                  <li className={`text-xs ${checks.length ? 'text-emerald-600' : 'text-red-500'}`}>
+                    {checks.length ? '✓' : '✗'} At least 8 characters
+                  </li>
+                  <li className={`text-xs ${checks.number ? 'text-emerald-600' : 'text-red-500'}`}>
+                    {checks.number ? '✓' : '✗'} Contains a number
+                  </li>
+                  <li className={`text-xs ${checks.special ? 'text-emerald-600' : 'text-red-500'}`}>
+                    {checks.special ? '✓' : '✗'} Contains a special character
+                  </li>
+                </ul>
+              )}
+            </div>
+            {error && <p role="alert" className="text-xs text-red-600">{error}</p>}
+            <button
+              type="submit"
+              disabled={pending || !passwordValid}
+              className={`px-4 py-2 text-sm font-medium text-white bg-stone-700 rounded hover:bg-stone-800 transition-colors duration-150 cursor-pointer ${(pending || !passwordValid) ? 'opacity-50 pointer-events-none' : ''}`}
+            >
+              {pending ? 'Saving...' : 'Set new password'}
+            </button>
+          </form>
+        )}
+
+        {(sessionReady || sessionError) && (
+          <p className="mt-4 text-xs text-stone-500">
+            <Link href="/signin" className="text-stone-500 hover:text-stone-700">← Back to sign in</Link>
+          </p>
+        )}
       </div>
     </div>
   )

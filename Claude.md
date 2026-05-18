@@ -114,11 +114,11 @@ betterbudget/
 │       ├── babel.config.js
 │       ├── tailwind.config.js
 │       ├── global.css
+│       ├── app/            ← Expo Router file-based routes (root level, NOT src/app/)
+│       │   ├── _layout.tsx          ← auth guard
+│       │   ├── (auth)/              ← sign-in, sign-up
+│       │   └── (app)/               ← dashboard, settings
 │       └── src/
-│           ├── app/        ← Expo Router file-based routes
-│           │   ├── _layout.tsx      ← auth guard
-│           │   ├── (auth)/          ← sign-in, sign-up
-│           │   └── (app)/           ← dashboard, settings
 │           ├── components/ ← RN UI components
 │           └── lib/
 │               ├── api.ts           ← all Supabase calls
