@@ -104,6 +104,7 @@ export async function changePassword(password: string): Promise<string | undefin
 
 export async function resetPassword(email: string): Promise<string | undefined> {
   const siteUrl = process.env.EXPO_PUBLIC_SITE_URL
+  if (!siteUrl) return 'Missing EXPO_PUBLIC_SITE_URL'
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${siteUrl}/auth/callback?next=/reset-password`,
   })
