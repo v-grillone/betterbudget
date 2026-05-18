@@ -5,6 +5,7 @@ import {
 } from 'react-native'
 import { Link } from 'expo-router'
 import { signIn } from '@/lib/api'
+import BbLogo from '@/components/BbLogo'
 
 export default function SignInScreen() {
   const [email, setEmail] = useState('')
@@ -31,7 +32,10 @@ export default function SignInScreen() {
       >
         <View className="w-full max-w-sm bg-white border border-stone-200 rounded-lg p-6">
           {/* Logo */}
-          <Text className="text-xl font-bold text-stone-800 mb-6">betterbudget</Text>
+          <View className="flex-row items-center gap-2 mb-6">
+            <BbLogo size={28} />
+            <Text className="text-xl font-brand text-stone-800">betterbudget</Text>
+          </View>
 
           {/* Email */}
           <View className="mb-4">
@@ -47,7 +51,7 @@ export default function SignInScreen() {
           </View>
 
           {/* Password */}
-          <View className="mb-4">
+          <View className="mb-1">
             <Text className="text-xs font-medium text-stone-500 uppercase tracking-wide mb-1">Password</Text>
             <TextInput
               value={password}
@@ -57,6 +61,13 @@ export default function SignInScreen() {
               className="px-3 py-2 text-sm border border-stone-200 rounded bg-white text-stone-800"
             />
           </View>
+
+          {/* Forgot password */}
+          <Link href={"/(auth)/forgot-password" as any} asChild>
+            <Pressable className="self-end mb-4">
+              <Text className="text-xs text-stone-500">Forgot password?</Text>
+            </Pressable>
+          </Link>
 
           {error && <Text className="text-xs text-red-600 mb-3">{error}</Text>}
 

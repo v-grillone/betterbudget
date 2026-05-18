@@ -5,6 +5,7 @@ import {
 } from 'react-native'
 import { Link } from 'expo-router'
 import { signUp } from '@/lib/api'
+import BbLogo from '@/components/BbLogo'
 
 export default function SignUpScreen() {
   const [name, setName] = useState('')
@@ -43,7 +44,10 @@ export default function SignUpScreen() {
         keyboardShouldPersistTaps="handled"
       >
         <View className="w-full max-w-sm bg-white border border-stone-200 rounded-lg p-6">
-          <Text className="text-xl font-bold text-stone-800 mb-6">betterbudget</Text>
+          <View className="flex-row items-center gap-2 mb-6">
+            <BbLogo size={28} />
+            <Text className="text-xl font-brand text-stone-800">betterbudget</Text>
+          </View>
 
           {/* Name */}
           <View className="mb-4">

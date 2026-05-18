@@ -102,6 +102,14 @@ export async function changePassword(password: string): Promise<string | undefin
   return error?.message
 }
 
+export async function resetPassword(email: string): Promise<string | undefined> {
+  const siteUrl = process.env.EXPO_PUBLIC_SITE_URL
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${siteUrl}/auth/callback?next=/reset-password`,
+  })
+  return error?.message
+}
+
 export async function deleteAccount(): Promise<string | undefined> {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return 'Not authenticated'
