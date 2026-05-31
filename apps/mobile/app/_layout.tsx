@@ -38,10 +38,11 @@ export default function RootLayout() {
   useEffect(() => {
     if (session === undefined) return
     const inAuth = (segments[0] as string) === '(auth)'
+    const inApp = (segments[0] as string) === '(app)'
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!session && !inAuth) router.replace('/(auth)/sign-in' as any)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (session && inAuth) router.replace('/(app)' as any)
+    else if (session && !inApp) router.replace('/(app)' as any)
   }, [session, segments])
 
   if (session === undefined || !fontsLoaded) return null
