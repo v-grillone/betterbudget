@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Pressable, Text, TextInput, View } from 'react-native'
-import { CATEGORIES } from '@betterbudget/shared'
-import { defaultDate } from '@betterbudget/shared'
+import { CATEGORIES, defaultDate, daysInMonth } from '@betterbudget/shared'
 import { addTransaction } from '@/lib/api'
+import DatePickerField from './DatePickerField'
 
 interface Props {
   month: string
@@ -16,6 +16,11 @@ export default function TransactionForm({ month, onAdded }: Props) {
   const [date, setDate] = useState(defaultDate(month))
   const [error, setError] = useState<string | undefined>()
   const [pending, setPending] = useState(false)
+
+  const [minDate, maxDate] = useMemo(() => {
+    const [y, m] = month.split('-').map(Number)
+    return [new Date(y, m - 1, 1), new Date(y, m - 1, daysInMonth(month))]
+  }, [month])
 
   async function handleSubmit() {
     if (pending) return
@@ -82,13 +87,12 @@ export default function TransactionForm({ month, onAdded }: Props) {
           />
         </View>
         <View className="flex-1">
-          <Text className="text-xs font-medium text-stone-500 uppercase tracking-wide mb-1">Date</Text>
-          <TextInput
+          <DatePickerField
+            label="Date"
             value={date}
-            onChangeText={setDate}
-            placeholder="YYYY-MM-DD"
-            placeholderTextColor="#a8a29e"
-            className="px-3 py-2 text-sm border border-stone-200 rounded bg-white text-stone-800"
+            onChange={setDate}
+            minDate={minDate}
+            maxDate={maxDate}
           />
         </View>
       </View>

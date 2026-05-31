@@ -3,6 +3,7 @@ import { Modal, Pressable, Text, TextInput, View } from 'react-native'
 import { CATEGORIES } from '@betterbudget/shared'
 import type { Transaction } from '@betterbudget/shared'
 import { deleteTransaction, updateTransaction } from '@/lib/api'
+import DatePickerField from './DatePickerField'
 
 interface Props {
   transaction: Transaction | null
@@ -101,14 +102,7 @@ export default function TransactionModal({ transaction, onClose, onSaved }: Prop
             />
           </View>
           <View className="flex-1">
-            <Text className="text-xs font-medium text-stone-500 uppercase tracking-wide mb-1">Date</Text>
-            <TextInput
-              value={date}
-              onChangeText={setDate}
-              placeholder="YYYY-MM-DD"
-              placeholderTextColor="#a8a29e"
-              className="px-3 py-2 text-sm border border-stone-200 rounded bg-white text-stone-800"
-            />
+            <DatePickerField label="Date" value={date} onChange={setDate} />
           </View>
         </View>
 
